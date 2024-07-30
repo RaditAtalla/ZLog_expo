@@ -4,12 +4,14 @@ import { ScrollView, Text, View } from "react-native";
 import Menu from "@components/Menu";
 import Button from "@components/Button";
 import colors from "@constants/colors";
-import { Download } from "react-native-feather";
+import { Download, Plus } from "react-native-feather";
 import { router } from "expo-router";
+import FloatingButton from "@components/FloatingButton";
 
 const ListSPP = () => {
   return (
     <Layout>
+      <FloatingButton onPress={() => router.push("spp")} style={{ bottom: 70, right: 5 }} color={colors.success} icon={<Plus color={'white'} />} />
       <ScrollView>
         <Text
           style={{
@@ -43,6 +45,8 @@ const ListSPP = () => {
           Agustus 2024
         </Text>
         <View style={{ gap: 10 }}>
+          <Menu label={"SPP 001"} style={{ paddingVertical: 5 }} />
+          <Menu label={"SPP 001"} style={{ paddingVertical: 5 }} />
           <Menu label={"SPP 001"} style={{ paddingVertical: 5 }} />
           <Menu label={"SPP 001"} style={{ paddingVertical: 5 }} />
           <Menu label={"SPP 001"} style={{ paddingVertical: 5 }} />
