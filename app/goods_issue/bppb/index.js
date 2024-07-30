@@ -16,28 +16,28 @@ const BPPBInput = () => {
           required
         />
         <Input
-          label={"Item material"}
-          placeholder={"Item material..."}
+          label={"Spesifikasi"}
+          placeholder={"Spesifikasi..."}
           required
         />
         <Input
-          label={"Item material"}
-          placeholder={"Item material..."}
+          label={"Volume"}
+          placeholder={"Volume..."}
           required
         />
         <Input
-          label={"Item material"}
-          placeholder={"Item material..."}
-          required
-        />
-        <Input
-          label={"Lokasi pekerjaan"}
-          placeholder={"Lokasi pekerjaan..."}
+          label={"Satuan"}
+          placeholder={"Satuan..."}
           required
         />
         <Input
           label={"Lokasi pekerjaan"}
           placeholder={"Lokasi pekerjaan..."}
+          required
+        />
+        <Input
+          label={"Nama pekerjaan"}
+          placeholder={"Nama pekerjaan..."}
           required
         />
       </View>

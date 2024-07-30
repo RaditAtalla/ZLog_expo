@@ -14,23 +14,23 @@ const GoodsReceipt = () => {
     >
       <View style={{ gap: 10 }}>
         <Input
-          label={"Item material"}
-          placeholder={"Item material..."}
+          label={"Tanggal barang masuk"}
+          placeholder={"Tanggal barang masuk..."}
           required
         />
         <Input
-          label={"Item material"}
-          placeholder={"Item material..."}
+          label={"Nomor surat jalan"}
+          placeholder={"Nomor surat jalan..."}
           required
         />
         <Input
-          label={"Item material"}
-          placeholder={"Item material..."}
+          label={"Nama vendor"}
+          placeholder={"Nama vendor..."}
           required
         />
         <Input
-          label={"Item material"}
-          placeholder={"Item material..."}
+          label={"Nama pengantar"}
+          placeholder={"Nama pengantar..."}
           required
         />
       </View>

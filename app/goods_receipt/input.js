@@ -17,18 +17,18 @@ const GoodsReceiptInput = () => {
           required
         />
         <Input
-          label={'Item material'}
-          placeholder={'Item material...'}
+          label={'Spesifikasi'}
+          placeholder={'Spesifikasi...'}
           required
         />
         <Input
-          label={'Item material'}
-          placeholder={'Item material...'}
+          label={'Volume'}
+          placeholder={'Volume...'}
           required
         />
         <Input
-          label={'Item material'}
-          placeholder={'Item material...'}
+          label={'Satuan'}
+          placeholder={'Satuan...'}
           required
         />
       </View>
