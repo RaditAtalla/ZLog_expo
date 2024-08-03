@@ -23,7 +23,8 @@ const styles = StyleSheet.create({
   label: {
     color: 'white',
     fontFamily: "InterMedium",
-    fontSize: 20,
+    fontSize: 16,
+    fontWeight:"700",
     textAlign: 'center',
   },
 });

@@ -17,8 +17,8 @@ const Home = () => {
   return (
     <Layout statusBarColor={"white"}>
       <Text style={styles.header}>
-        Welcome,{"\n"}
-        <Text style={styles.username}>Rachmad</Text>
+        Welcome, 
+        <Text style={styles.username}> Rachmad</Text>
       </Text>
 
       <View style={styles.menuContainer}>
@@ -55,31 +55,35 @@ const Home = () => {
 const styles = StyleSheet.create({
   header: {
     color: colors.blue_secondary,
-    fontSize: 20,
+    fontSize: 18,
     fontFamily: "InterMedium",
-    // textAlign: "center",
-    marginBottom: 50,
+    paddingBottom: 32,
   },
 
   username: {
     fontFamily: "InterBold",
     color: colors.blue_primary,
-    fontSize: 36,
+    fontSize: 18,
     lineHeight: 40,
   },
 
   menuContainer: {
+    flex:1,
+    flexDirection:"column",
+    alignItems:"stretch",
     gap: 10,
   },
 
   menuRow: {
     flexDirection: "row",
+    alignContent:"stretch",
     gap: 10,
   },
 
   menu: {
-    minWidth: 160,
-    maxWidth: 160,
+    flex:1,
+    justifyContent:"center",
+    alignContent:"center",
   },
 });
 
