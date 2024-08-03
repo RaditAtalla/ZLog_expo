@@ -20,9 +20,9 @@ const Input = ({
   return password ? (
     <View>
       {label && (
-        <Text style={styles.text}>
+        <Text style={styles.label}>
           {label}
-          {required && <Text style={{ color: COLORS.warning }}>*</Text>}:
+          {required && <Text style={{ color: COLORS.warning }}> *</Text>}:
         </Text>
       )}
 
@@ -53,9 +53,9 @@ const Input = ({
   ) : (
     <View>
       {label && (
-        <Text style={styles.text}>
+        <Text style={styles.label}>
           {label}
-          {required && <Text style={{ color: COLORS.warning }}>*</Text>}:
+          {required && <Text style={{ color: COLORS.warning }}> *</Text>}
         </Text>
       )}
 
@@ -104,8 +104,11 @@ const styles = StyleSheet.create({
     width: "90%",
   },
   label: {
+    marginBottom:10,
     fontSize: 14,
     fontFamily: "InterMedium",
+    fontWeight: "500",
+    color:COLORS.blue_primary,
   },
 });
 

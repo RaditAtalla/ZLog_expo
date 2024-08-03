@@ -13,7 +13,7 @@ const FileInput = ({ required, label, style }) => {
     <View style={[styles.container, style]}>
       <Text style={styles.text}>
         {label}
-        {required && <Text style={{ color: COLORS.warning }}>*</Text>}:
+        {required && <Text style={{ color: COLORS.warning }}> *</Text>}:
       </Text>
       <View style={styles.buttonContainer}>
         <Pressable style={styles.button} onPress={handleClick}>
@@ -27,7 +27,11 @@ const FileInput = ({ required, label, style }) => {
 
 const styles = StyleSheet.create({
   text: {
+    marginBottom:10,
     fontSize: 14,
+    fontFamily: "InterMedium",
+    fontWeight: "500",
+    color:COLORS.blue_primary,
   },
 
   buttonContainer: {

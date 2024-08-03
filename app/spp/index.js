@@ -2,7 +2,7 @@ import React from "react";
 import Layout from "@components/Layout";
 import Input from "@components/Input";
 import FileInput from "@components/FileInput";
-import { View } from "react-native";
+import {View, StyleSheet} from "react-native";
 import Button from "@components/Button";
 import colors from "@constants/colors";
 import { router } from "expo-router";
@@ -10,7 +10,7 @@ import { router } from "expo-router";
 const SPP = () => {
   return (
     <Layout hasBackButton style={{ justifyContent: "space-between" }}>
-      <View style={{ gap: 10 }}>
+      <View style={{ flexDirection:"column", gap: 16 }}>
         <Input
           label={"Item material"}
           placeholder={"Item material..."}
@@ -53,5 +53,7 @@ const SPP = () => {
     </Layout>
   );
 };
+const styles = StyleSheet.create({
 
+});
 export default SPP;
