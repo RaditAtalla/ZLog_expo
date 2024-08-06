@@ -40,15 +40,15 @@ const SPP = () => {
       </View>
 
       <View
-        style={{ flexDirection: "row", justifyContent: "flex-end", gap: 5 }}
+        style={{ flexDirection: "row", justifyContent: "flex-end", gap: 12 }}
       >
         <Button
           onPress={() => router.push("./preview")}
           color={colors.blue_primary}
-          label={"Finish"}
+          label={"Finish"} style={{flex:1}}
           type={"ghost"}
         />
-        <Button color={colors.blue_primary} label={"Next"} />
+        <Button color={colors.blue_primary} label={"Next"} style={{flex:1}}/>
       </View>
     </Layout>
   );
