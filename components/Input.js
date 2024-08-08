@@ -10,6 +10,7 @@ const Input = ({
   style,
   password,
   label,
+  ...res
 }) => {
   const [showPassword, setShowPassword] = useState(true);
 
@@ -33,6 +34,7 @@ const Input = ({
           secureTextEntry={showPassword}
           style={[styles.input, style]}
           placeholderTextColor={COLORS.blue_secondary}
+          {...res}
         />
         {password &&
           (showPassword ? (
@@ -65,6 +67,7 @@ const Input = ({
           keyboardType={keyboardType}
           style={[styles.input, style]}
           placeholderTextColor={COLORS.blue_secondary}
+          {...res}
         />
         {password &&
           (showPassword ? (
