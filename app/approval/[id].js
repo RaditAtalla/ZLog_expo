@@ -112,7 +112,7 @@ const Approval = () => {
     >
       {detailSpp.map((d) => {
         return (
-          <View key={d.id}>
+          <View key={d.id} style={{ marginBottom: 30 }} >
             <Text>Material: {d.material}</Text>
             <Text>spesifikasi: {d.spesifikasi}</Text>
             <Text>volume: {d.volume}</Text>

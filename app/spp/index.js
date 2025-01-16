@@ -34,7 +34,7 @@ const SPP = () => {
       const data = response.data;
       setUserData(data);
     } catch (error) {
-      console.log(error);
+      console.log("user error");
     }
   }
 
@@ -69,13 +69,13 @@ const SPP = () => {
       i++;
     }
 
-    console.log(materialArr)
+    const kode = "SPP-PP-02"
 
     try {
-      await axios.post(
+      const postSpp = await axios.post(
         "http://10.110.0.60:3000/spp",
         {
-          kode: "SPP-PP-01",
+          kode,
           data: materialArr,
         },
         {
@@ -84,16 +84,12 @@ const SPP = () => {
           },
         }
       );
-
-      console.log("done");
+      const sppData = postSpp.data
+      router.push({ pathname: "/spp/preview", params: { token, kodeSpp: kode } });
     } catch (error) {
-      console.log(error);
+      console.log("post spp error");
     }
-
-    router.push({ pathname: "/spp/preview", params: { token } });
   }
-
-  
 
   useEffect(() => {
     getUser();
@@ -156,7 +152,7 @@ const SPP = () => {
           <Button
             onPress={handleSubmit}
             color={colors.blue_primary}
-            label={"Finish"}
+            label={"Submit"}
             style={{ flex: 1 }}
           />
         </View>
