@@ -9,20 +9,16 @@ import { router, useLocalSearchParams } from "expo-router";
 import axios from "axios";
 
 const SPP = () => {
+  const [userData, setUserData] = useState({})
   const [material, setMaterial] = useState();
   const [lokasi, setLokasi] = useState();
   const [spesifikasi, setSpesifikasi] = useState();
   const [volume, setVolume] = useState();
   const [satuan, setSatuan] = useState();
-  const [materialData, setMaterialData] = useState([]);
-  const [lokasiData, setLokasiData] = useState([]);
-  const [spesifikasiData, setSpesifikasiData] = useState([]);
-  const [volumeData, setVolumeData] = useState([]);
-  const [satuanData, setSatuanData] = useState([]);
-  const [userData, setUserData] = useState("");
+  const [sppMaterialData, setSppMaterialData] = useState([])
+  const [isSubmit, setIsSubmit] = useState(false)
 
   const { token } = useLocalSearchParams();
-  const materialArr = [];
 
   async function getUser() {
     try {
@@ -39,11 +35,7 @@ const SPP = () => {
   }
 
   function handleNext() {
-    setMaterialData((m) => [...m, material]);
-    setSpesifikasiData((s) => [...s, spesifikasi]);
-    setVolumeData((v) => [...v, volume]);
-    setSatuanData((s) => [...s, satuan]);
-    setLokasiData((l) => [...l, lokasi]);
+    setSppMaterialData(s => [...s, {material, lokasi, spesifikasi, volume, satuan}])
 
     setMaterial("");
     setSpesifikasi("");
@@ -53,30 +45,21 @@ const SPP = () => {
 
   }
 
+  function handleOk() {
+    setSppMaterialData(s => [...s, {material, lokasi, spesifikasi, volume, satuan}])
+    setIsSubmit(true)
+  }
+
   async function handleSubmit() {
     handleNext();
-
-    let i = 0;
-    while (i < materialData.length) {
-      materialArr.push({
-        material: materialData[i],
-        spesifikasi: spesifikasiData[i],
-        volume: volumeData[i],
-        satuan: satuanData[i],
-        lokasi: lokasiData[i],
-      });
-
-      i++;
-    }
-
     const kode = "SPP-PP-02"
 
     try {
-      const postSpp = await axios.post(
+      await axios.post(
         "http://10.110.0.60:3000/spp",
         {
           kode,
-          data: materialArr,
+          data: sppMaterialData,
         },
         {
           headers: {
@@ -84,7 +67,6 @@ const SPP = () => {
           },
         }
       );
-      const sppData = postSpp.data
       router.push({ pathname: "/spp/preview", params: { token, kodeSpp: kode } });
     } catch (error) {
       console.log("post spp error");
@@ -149,12 +131,21 @@ const SPP = () => {
             style={{ flex: 1 }}
             onPress={handleNext}
           />
-          <Button
-            onPress={handleSubmit}
-            color={colors.blue_primary}
-            label={"Submit"}
-            style={{ flex: 1 }}
-          />
+          {isSubmit ?
+            <Button
+              onPress={handleSubmit}
+              color={colors.blue_primary}
+              label={"Submit"}
+              style={{ flex: 1 }}
+            />
+            :
+            <Button
+              onPress={handleOk}
+              color={colors.blue_primary}
+              label={"Finish"}
+              style={{ flex: 1 }}
+            />
+        }
         </View>
       </Layout>
     );
