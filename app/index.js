@@ -7,14 +7,23 @@ import Input from "@components/Input";
 import Logo from "@components/Logo";
 import { router } from "expo-router";
 import { useState } from "react";
-const Login = () => {
+import axios from "axios";
 
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  function handleLogin(){
-    console.log(email, password);
-    // router.push("./home");
+  async function handleLogin(){
+    try {
+      const response = await axios.post("http://10.110.0.60:3000/user/login", {
+        email,
+        password
+      })
+      const token = response.data.token
+      router.push({pathname: '/home', params: {token}})
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (

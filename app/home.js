@@ -1,35 +1,47 @@
-import React from "react";
+import React, { useState } from "react";
 import Layout from "@components/Layout";
-import Logo from "@components/Logo";
 import { StyleSheet, Text, View } from "react-native";
 import colors from "@constants/colors";
 import Menu from "@components/Menu";
-import {
-  Archive,
-  Bookmark,
-  Check,
-  DollarSign,
-  MoreHorizontal,
-} from "react-native-feather";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
+import axios from "axios";
 
 const Home = () => {
+  const [userData, setUserData] = useState("")
+  const { token } = useLocalSearchParams();
+
+  async function getUser() {
+    try {
+      const response = await axios.get("http://10.110.0.60:3000/user", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = response.data;
+      setUserData(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  getUser();
+
   return (
     <Layout statusBarColor={"white"}>
       <Text style={styles.header}>
-        Welcome, 
-        <Text style={styles.username}> Rachmad</Text>
+        Welcome,
+        <Text style={styles.username}>{userData.nama}</Text>
       </Text>
 
       <View style={styles.menuContainer}>
         <View style={styles.menuRow}>
           <Menu
-            onPress={() => router.push("/spp")}
+            onPress={() => router.push({ pathname: "/spp", params: {token} })}
             label={"SPP"}
             style={styles.menu}
           />
           <Menu
-            onPress={() => router.push("/approval")}
+            onPress={() => router.push({ pathname: "/approval/", params: {token} })}
             label={"Approval"}
             style={styles.menu}
           />
@@ -68,22 +80,22 @@ const styles = StyleSheet.create({
   },
 
   menuContainer: {
-    flex:1,
-    flexDirection:"column",
-    alignItems:"stretch",
+    flex: 1,
+    flexDirection: "column",
+    alignItems: "stretch",
     gap: 10,
   },
 
   menuRow: {
     flexDirection: "row",
-    alignContent:"stretch",
+    alignContent: "stretch",
     gap: 10,
   },
 
   menu: {
-    flex:1,
-    justifyContent:"center",
-    alignContent:"center",
+    flex: 1,
+    justifyContent: "center",
+    alignContent: "center",
   },
 });
 

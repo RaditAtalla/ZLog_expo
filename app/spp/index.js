@@ -1,59 +1,168 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Layout from "@components/Layout";
 import Input from "@components/Input";
 import FileInput from "@components/FileInput";
-import {View, StyleSheet} from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import Button from "@components/Button";
 import colors from "@constants/colors";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
+import axios from "axios";
 
 const SPP = () => {
-  return (
-    <Layout hasBackButton style={{ justifyContent: "space-between" }}>
-      <View style={{ flexDirection:"column", gap: 16 }}>
-        <Input
-          label={"Item material"}
-          placeholder={"Item material..."}
-          required
-        />
-        <Input
-          label={"Spesifikasi"}
-          placeholder={"Spesifikasi..."}
-          required
-        />
-        <Input
-          label={"Volume"}
-          placeholder={"Volume..."}
-          required
-        />
-        <Input
-          label={"Satuan"}
-          placeholder={"Satuan..."}
-          required
-        />
-        <FileInput label={"Contoh gambar (opsional)"} />
-        <Input
-          label={"Lokasi pekerjaan"}
-          placeholder={"Lokasi pekerjaan..."}
-          required
-        />
-      </View>
+  const [material, setMaterial] = useState();
+  const [lokasi, setLokasi] = useState();
+  const [spesifikasi, setSpesifikasi] = useState();
+  const [volume, setVolume] = useState();
+  const [satuan, setSatuan] = useState();
+  const [materialData, setMaterialData] = useState([]);
+  const [lokasiData, setLokasiData] = useState([]);
+  const [spesifikasiData, setSpesifikasiData] = useState([]);
+  const [volumeData, setVolumeData] = useState([]);
+  const [satuanData, setSatuanData] = useState([]);
+  const [userData, setUserData] = useState("");
 
-      <View
-        style={{ flexDirection: "row", justifyContent: "flex-end", gap: 12 }}
-      >
-        <Button
-          onPress={() => router.push("./preview")}
-          color={colors.blue_primary}
-          label={"Finish"} style={{flex:1}}
-          type={"ghost"}
-        />
-        <Button color={colors.blue_primary} label={"Next"} style={{flex:1}}/>
-      </View>
-    </Layout>
-  );
+  const { token } = useLocalSearchParams();
+  const materialArr = [];
+
+  async function getUser() {
+    try {
+      const response = await axios.get("http://10.110.2.1:3000/user", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = response.data;
+      setUserData(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  function handleNext() {
+    setMaterialData((m) => [...m, material]);
+    setSpesifikasiData((s) => [...s, spesifikasi]);
+    setVolumeData((v) => [...v, volume]);
+    setSatuanData((s) => [...s, satuan]);
+    setLokasiData((l) => [...l, lokasi]);
+
+    setMaterial("");
+    setSpesifikasi("");
+    setVolume("");
+    setSatuan("");
+    setLokasi("");
+
+  }
+
+  async function handleSubmit() {
+    handleNext();
+
+    let i = 0;
+    while (i < materialData.length) {
+      materialArr.push({
+        material: materialData[i],
+        spesifikasi: spesifikasiData[i],
+        volume: volumeData[i],
+        satuan: satuanData[i],
+        lokasi: lokasiData[i],
+      });
+
+      i++;
+    }
+
+    console.log(materialArr)
+
+    try {
+      await axios.post(
+        "http://10.110.0.60:3000/spp",
+        {
+          kode: "SPP-PP-01",
+          data: materialArr,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log("done");
+    } catch (error) {
+      console.log(error);
+    }
+
+    router.push({ pathname: "/spp/preview", params: { token } });
+  }
+
+  
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
+  if (userData.jabatan == "PM" || userData.jabatan == "SEM") {
+    return <Text>Forbidden access</Text>;
+  } else {
+    return (
+      <Layout hasBackButton style={{ justifyContent: "space-between" }}>
+        <View style={{ flexDirection: "column", gap: 16 }}>
+          <Input
+            label={"Item material"}
+            placeholder={"Item material..."}
+            value={material}
+            onChangeText={(text) => setMaterial(text)}
+            required
+          />
+          <Input
+            label={"Spesifikasi"}
+            placeholder={"Spesifikasi..."}
+            value={spesifikasi}
+            onChangeText={(text) => setSpesifikasi(text)}
+            required
+          />
+          <Input
+            label={"Volume"}
+            placeholder={"Volume..."}
+            required
+            value={volume}
+            onChangeText={(text) => setVolume(text)}
+          />
+          <Input
+            label={"Satuan"}
+            placeholder={"Satuan..."}
+            required
+            value={satuan}
+            onChangeText={(text) => setSatuan(text)}
+          />
+          {/* <FileInput label={"Contoh gambar (opsional)"} /> */}
+          <Input
+            label={"Lokasi pekerjaan"}
+            placeholder={"Lokasi pekerjaan..."}
+            value={lokasi}
+            onChangeText={(text) => setLokasi(text)}
+            required
+          />
+        </View>
+
+        <View
+          style={{ flexDirection: "row", justifyContent: "flex-end", gap: 12 }}
+        >
+          <Button
+            type={"ghost"}
+            color={colors.blue_primary}
+            label={"Next"}
+            style={{ flex: 1 }}
+            onPress={handleNext}
+          />
+          <Button
+            onPress={handleSubmit}
+            color={colors.blue_primary}
+            label={"Finish"}
+            style={{ flex: 1 }}
+          />
+        </View>
+      </Layout>
+    );
+  }
 };
-const styles = StyleSheet.create({
 
-});
 export default SPP;

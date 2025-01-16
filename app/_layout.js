@@ -1,5 +1,5 @@
 import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
+import { Stack, router } from "expo-router";
 import React from "react";
 import colors from "@constants/colors";
 import Account from "@components/Account";
@@ -20,7 +20,7 @@ const _layout = () => {
       screenOptions={{
         headerShadowVisible: false,
         headerTitleStyle: { color: colors.blue_primary, fontSize: 16 },
-        headerRight: () => <Account />,
+        headerRight: () => <Account onPress={() => router.push({pathname: "/", params: {token: ""}})} />,
       }}
     >
       <Stack.Screen name="index" options={{ headerShown: false }} />
@@ -45,7 +45,8 @@ const _layout = () => {
       <Stack.Screen name="more/stock_material" options={{ title: 'Stock Material' }} />
       <Stack.Screen name="spp/index" options={{ title: 'Input SPP' }} />
       <Stack.Screen name="spp/preview" options={{ title: 'Preview SPP' }} />
-      <Stack.Screen name="approval" options={{ title: 'Approval' }} />
+      <Stack.Screen name="approval/index" options={{ title: 'Approval List' }} />
+      <Stack.Screen name="approval/[id]" options={{ title: 'Approval' }} />
       <Stack.Screen name="goods_receipt/index" options={{ title: 'Goods Receipt' }} />
       <Stack.Screen name="goods_receipt/input" options={{ title: 'Input Goods Receipt' }} />
       <Stack.Screen name="goods_issue/index" options={{ title: 'Goods Issue' }} />
