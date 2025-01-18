@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Layout from "@components/Layout";
 import { StyleSheet, Text, View } from "react-native";
 import colors from "@constants/colors";
@@ -7,24 +7,26 @@ import { router, useLocalSearchParams } from "expo-router";
 import axios from "axios";
 
 const Home = () => {
-  const [userData, setUserData] = useState("");
+  const [userData, setUserData] = useState({});
   const { token } = useLocalSearchParams();
 
-  async function getUser() {
-    try {
-      const response = await axios.get(" http://10.110.0.165:3000/user", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const data = response.data;
-      setUserData(data);
-    } catch (error) {
-      console.log(error);
+  useEffect(() => {
+    async function getUser() {
+      try {
+        const response = await axios.get(" http://10.110.0.165:3000/user", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const data = response.data;
+        setUserData(data);
+      } catch (error) {
+        console.log(error);
+      }
     }
-  }
-
-  getUser();
+  
+    getUser();
+  }, [])
 
   return (
     <Layout statusBarColor={"white"}>

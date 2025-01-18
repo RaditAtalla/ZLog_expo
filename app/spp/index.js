@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Layout from "@components/Layout";
 import Input from "@components/Input";
 import FileInput from "@components/FileInput";
-import { View, StyleSheet, Text } from "react-native";
+import { View, Text } from "react-native";
 import Button from "@components/Button";
 import colors from "@constants/colors";
 import { router, useLocalSearchParams } from "expo-router";
@@ -19,20 +19,6 @@ const SPP = () => {
   const [isSubmit, setIsSubmit] = useState(false);
 
   const { token } = useLocalSearchParams();
-
-  async function getUser() {
-    try {
-      const response = await axios.get("http://10.110.0.165:3000/user", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const data = response.data;
-      setUserData(data);
-    } catch (error) {
-      console.log("user error");
-    }
-  }
 
   function handleNext() {
     setSppMaterialData((s) => [
@@ -82,6 +68,20 @@ const SPP = () => {
   }
 
   useEffect(() => {
+    async function getUser() {
+      try {
+        const response = await axios.get("http://10.110.0.165:3000/user", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const data = response.data;
+        setUserData(data);
+      } catch (error) {
+        console.log("user error");
+      }
+    }
+
     getUser();
   }, []);
 

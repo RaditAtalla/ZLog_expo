@@ -7,42 +7,26 @@ import { useLocalSearchParams, router } from "expo-router";
 import axios from "axios";
 
 const SPPPreview = () => {
-  const [userData, setUserData] = useState("");
   const [detailSpp, setDetailSpp] = useState([{}]);
   const { token, kodeSpp } = useLocalSearchParams();
 
-  async function getUser() {
-    try {
-      const response = await axios.get("http://10.110.0.165:3000/user", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const data = response.data;
-      setUserData(data);
-    } catch (error) {
-      console.log("user error");
-    }
-  }
-
-  async function getSpp() {
-    try {
-      const responseDataSpp = await axios.get(
-        "http://10.110.0.165:3000/spp/kode/" + kodeSpp,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setDetailSpp(responseDataSpp.data.detailSpp);
-    } catch (error) {
-      console.log("data spp error");
-    }
-  }
-
   useEffect(() => {
-    getUser();
+    async function getSpp() {
+      try {
+        const responseDataSpp = await axios.get(
+          "http://10.110.0.165:3000/spp/kode/" + kodeSpp,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setDetailSpp(responseDataSpp.data.detailSpp);
+      } catch (error) {
+        console.log("data spp error");
+      }
+    }
+
     getSpp();
   }, []);
 

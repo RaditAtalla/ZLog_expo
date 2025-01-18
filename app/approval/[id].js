@@ -2,13 +2,10 @@ import React, { useEffect, useState } from "react";
 import Layout from "@components/Layout";
 import { View, Text } from "react-native";
 import Button from "@components/Button";
-import colors from "@constants/colors";
 import { router, useLocalSearchParams } from "expo-router";
 import axios from "axios";
-import Menu from "@components/Menu";
 
 const Approval = () => {
-  const [userData, setUserData] = useState("");
   const [dataSpp, setDataSpp] = useState();
   const [detailSpp, setDetailSpp] = useState([]);
   const { token, id } = useLocalSearchParams();
@@ -26,41 +23,12 @@ const Approval = () => {
         );
 
         setDataSpp(responseDataSpp.data);
+        setDetailSpp(responseDataSpp.data.detailSpp)
       } catch (error) {
         console.log("data spp error");
       }
-
-      try {
-        const responseDetailSpp = await axios.get(
-          "http://10.110.0.165:3000/spp/detail/" + id,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        setDetailSpp(responseDetailSpp.data);
-      } catch (error) {
-        console.log("detail spp error");
-      }
     }
 
-    async function getUser() {
-      try {
-        const response = await axios.get("http://10.110.0.165:3000/user", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        const data = response.data;
-        setUserData(data);
-      } catch (error) {
-        console.log("user error");
-      }
-    }
-
-    getUser();
     getSpp();
   }, []);
 
