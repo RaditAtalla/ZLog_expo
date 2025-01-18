@@ -9,20 +9,20 @@ import { router, useLocalSearchParams } from "expo-router";
 import axios from "axios";
 
 const SPP = () => {
-  const [userData, setUserData] = useState({})
+  const [userData, setUserData] = useState({});
   const [material, setMaterial] = useState();
   const [lokasi, setLokasi] = useState();
   const [spesifikasi, setSpesifikasi] = useState();
   const [volume, setVolume] = useState();
   const [satuan, setSatuan] = useState();
-  const [sppMaterialData, setSppMaterialData] = useState([])
-  const [isSubmit, setIsSubmit] = useState(false)
+  const [sppMaterialData, setSppMaterialData] = useState([]);
+  const [isSubmit, setIsSubmit] = useState(false);
 
   const { token } = useLocalSearchParams();
 
   async function getUser() {
     try {
-      const response = await axios.get("http://10.110.2.1:3000/user", {
+      const response = await axios.get("http://10.110.0.165:3000/user", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -35,28 +35,33 @@ const SPP = () => {
   }
 
   function handleNext() {
-    setSppMaterialData(s => [...s, {material, lokasi, spesifikasi, volume, satuan}])
+    setSppMaterialData((s) => [
+      ...s,
+      { material, lokasi, spesifikasi, volume, satuan },
+    ]);
 
     setMaterial("");
     setSpesifikasi("");
     setVolume("");
     setSatuan("");
     setLokasi("");
-
   }
 
   function handleOk() {
-    setSppMaterialData(s => [...s, {material, lokasi, spesifikasi, volume, satuan}])
-    setIsSubmit(true)
+    setSppMaterialData((s) => [
+      ...s,
+      { material, lokasi, spesifikasi, volume, satuan },
+    ]);
+    setIsSubmit(true);
   }
 
   async function handleSubmit() {
     handleNext();
-    const kode = "SPP-PP-02"
+    const kode = "SPP-PP-06";
 
     try {
       await axios.post(
-        "http://10.110.0.60:3000/spp",
+        "http://10.110.0.165:3000/spp",
         {
           kode,
           data: sppMaterialData,
@@ -67,7 +72,10 @@ const SPP = () => {
           },
         }
       );
-      router.push({ pathname: "/spp/preview", params: { token, kodeSpp: kode } });
+      router.push({
+        pathname: "/spp/preview",
+        params: { token, kodeSpp: kode },
+      });
     } catch (error) {
       console.log("post spp error");
     }
@@ -131,21 +139,21 @@ const SPP = () => {
             style={{ flex: 1 }}
             onPress={handleNext}
           />
-          {isSubmit ?
+          {isSubmit ? (
             <Button
               onPress={handleSubmit}
               color={colors.blue_primary}
               label={"Submit"}
               style={{ flex: 1 }}
             />
-            :
+          ) : (
             <Button
               onPress={handleOk}
               color={colors.blue_primary}
               label={"Finish"}
               style={{ flex: 1 }}
             />
-        }
+          )}
         </View>
       </Layout>
     );

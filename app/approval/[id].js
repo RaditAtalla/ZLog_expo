@@ -17,7 +17,7 @@ const Approval = () => {
     async function getSpp() {
       try {
         const responseDataSpp = await axios.get(
-          "http://10.110.0.60:3000/spp/" + id,
+          "http://10.110.0.165:3000/spp/" + id,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -32,7 +32,7 @@ const Approval = () => {
 
       try {
         const responseDetailSpp = await axios.get(
-          "http://10.110.0.60:3000/spp/detail/" + id,
+          "http://10.110.0.165:3000/spp/detail/" + id,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -48,7 +48,7 @@ const Approval = () => {
 
     async function getUser() {
       try {
-        const response = await axios.get("http://10.110.0.60:3000/user", {
+        const response = await axios.get("http://10.110.0.165:3000/user", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -67,7 +67,7 @@ const Approval = () => {
   async function handleApprove() {
     try {
       await axios.post(
-        "http://10.110.0.60:3000/spp/acc",
+        "http://10.110.0.165:3000/spp/acc",
         {
           approvalStatus: "APPROVED",
           dataSppId: dataSpp.id,
@@ -79,7 +79,7 @@ const Approval = () => {
         }
       );
 
-      router.push({pathname: "/home", params: {token}})
+      router.push({ pathname: "/home", params: { token } });
     } catch (error) {
       console.log("Approve error");
     }
@@ -88,7 +88,7 @@ const Approval = () => {
   async function handleNotApprove() {
     try {
       await axios.post(
-        "http://10.110.0.60:3000/spp/acc",
+        "http://10.110.0.165:3000/spp/acc",
         {
           approvalStatus: "NOT_APPROVED",
           dataSppId: dataSpp.id,
@@ -99,7 +99,7 @@ const Approval = () => {
           },
         }
       );
-      router.push({pathname: "/home", params: {token}})
+      router.push({ pathname: "/home", params: { token } });
     } catch (error) {
       console.log("Not Approve error");
     }
@@ -112,7 +112,7 @@ const Approval = () => {
     >
       {detailSpp.map((d) => {
         return (
-          <View key={d.id} style={{ marginBottom: 30 }} >
+          <View key={d.id} style={{ marginBottom: 30 }}>
             <Text>Material: {d.material}</Text>
             <Text>spesifikasi: {d.spesifikasi}</Text>
             <Text>volume: {d.volume}</Text>

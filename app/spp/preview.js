@@ -8,12 +8,12 @@ import axios from "axios";
 
 const SPPPreview = () => {
   const [userData, setUserData] = useState("");
-  const [detailSpp, setDetailSpp] = useState([{}])
+  const [detailSpp, setDetailSpp] = useState([{}]);
   const { token, kodeSpp } = useLocalSearchParams();
 
   async function getUser() {
     try {
-      const response = await axios.get("http://10.110.0.60:3000/user", {
+      const response = await axios.get("http://10.110.0.165:3000/user", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -28,14 +28,14 @@ const SPPPreview = () => {
   async function getSpp() {
     try {
       const responseDataSpp = await axios.get(
-        "http://10.110.0.60:3000/spp/kode/" + kodeSpp,
+        "http://10.110.0.165:3000/spp/kode/" + kodeSpp,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-      setDetailSpp(responseDataSpp.data.detailSpp)
+      setDetailSpp(responseDataSpp.data.detailSpp);
     } catch (error) {
       console.log("data spp error");
     }
@@ -48,17 +48,19 @@ const SPPPreview = () => {
 
   return (
     <Layout hasBackButton style={{ justifyContent: "space-between" }}>
-      {detailSpp.map((d) => {
-        return (
-          <View key={d.id} style={{ marginBottom: 30 }}>
-            <Text>Material: {d.material}</Text>
-            <Text>spesifikasi: {d.spesifikasi}</Text>
-            <Text>volume: {d.volume}</Text>
-            <Text>satuan: {d.satuan}</Text>
-            <Text>lokasi: {d.lokasi}</Text>
-          </View>
-        );
-      })}
+      <View style={{ gap: 20 }}>
+        {detailSpp.map((d) => {
+          return (
+            <View key={d.id} style={{ marginBottom: 30 }}>
+              <Text>Material: {d.material}</Text>
+              <Text>spesifikasi: {d.spesifikasi}</Text>
+              <Text>volume: {d.volume}</Text>
+              <Text>satuan: {d.satuan}</Text>
+              <Text>lokasi: {d.lokasi}</Text>
+            </View>
+          );
+        })}
+      </View>
       <Button
         label={"Finish"}
         color={colors.blue_primary}

@@ -13,16 +13,16 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  async function handleLogin(){
+  async function handleLogin() {
     try {
-      const response = await axios.post("http://10.110.0.60:3000/user/login", {
+      const response = await axios.post("http://10.110.0.165:3000/user/login", {
         email,
-        password
-      })
-      const token = response.data.token
-      router.push({pathname: '/home', params: {token}})
+        password,
+      });
+      const token = response.data.token;
+      router.push({ pathname: "/home", params: { token } });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 
@@ -35,19 +35,18 @@ const Login = () => {
         <Logo style={{ alignSelf: "center", marginBottom: 50 }} />
 
         <View style={{ gap: 10 }}>
-          <Input 
-            label="Email" 
-            placeholder={"Masukkan email anda"} 
+          <Input
+            label="Email"
+            placeholder={"Masukkan email anda"}
             value={email}
             onChangeText={(text) => setEmail(text)}
           />
-          <Input 
-            label="Password" 
-            placeholder={"Masukkan kata sandi anda"} 
+          <Input
+            label="Password"
+            placeholder={"Masukkan kata sandi anda"}
             password
             value={password}
             onChangeText={(text) => setPassword(text)}
-
           />
         </View>
       </View>

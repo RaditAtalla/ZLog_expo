@@ -7,12 +7,12 @@ import { router, useLocalSearchParams } from "expo-router";
 import axios from "axios";
 
 const Home = () => {
-  const [userData, setUserData] = useState("")
+  const [userData, setUserData] = useState("");
   const { token } = useLocalSearchParams();
 
   async function getUser() {
     try {
-      const response = await axios.get("http://10.110.0.60:3000/user", {
+      const response = await axios.get(" http://10.110.0.165:3000/user", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -36,12 +36,14 @@ const Home = () => {
       <View style={styles.menuContainer}>
         <View style={styles.menuRow}>
           <Menu
-            onPress={() => router.push({ pathname: "/spp", params: {token} })}
+            onPress={() => router.push({ pathname: "/spp", params: { token } })}
             label={"SPP"}
             style={styles.menu}
           />
           <Menu
-            onPress={() => router.push({ pathname: "/approval/", params: {token} })}
+            onPress={() =>
+              router.push({ pathname: "/approval/", params: { token } })
+            }
             label={"Approval"}
             style={styles.menu}
           />
