@@ -20,7 +20,7 @@ const _layout = () => {
       screenOptions={{
         headerShadowVisible: false,
         headerTitleStyle: { color: colors.blue_primary, fontSize: 16 },
-        headerRight: () => <Account onPress={() => router.push({pathname: "/", params: {token: ""}})} />,
+        headerRight: () => <Account onPress={() => router.dismissAll()} />,
       }}
     >
       <Stack.Screen name="index" options={{ headerShown: false }} />

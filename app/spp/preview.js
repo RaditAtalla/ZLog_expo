@@ -49,7 +49,7 @@ const SPPPreview = () => {
       <Button
         label={"Finish"}
         color={colors.blue_primary}
-        onPress={() => router.push({ pathname: "/home", params: { token } })}
+        onPress={() => router.replace({ pathname: "/home", params: { token } })}
         style={{ alignSelf: "flex-end" }}
       />
     </Layout>

@@ -48,7 +48,7 @@ const Approval = () => {
         }
       );
 
-      router.push({ pathname: "/home", params: { token } });
+      router.replace({ pathname: "/home", params: { token } });
     } catch (error) {
       console.log("Approve error");
     }
@@ -68,7 +68,7 @@ const Approval = () => {
           },
         }
       );
-      router.push({ pathname: "/home", params: { token } });
+      router.replace({ pathname: "/home", params: { token } });
     } catch (error) {
       console.log("Not Approve error");
     }
