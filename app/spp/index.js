@@ -5,6 +5,7 @@ import FileInput from "@components/FileInput";
 import { View, Text } from "react-native";
 import Button from "@components/Button";
 import colors from "@constants/colors";
+import "@constants/axiosConfig.js";
 import { router, useLocalSearchParams } from "expo-router";
 import axios from "axios";
 
@@ -47,7 +48,7 @@ const SPP = () => {
 
     try {
       await axios.post(
-        "http://10.110.0.165:3000/spp",
+        "/spp",
         {
           kode,
           data: sppMaterialData,
@@ -70,7 +71,7 @@ const SPP = () => {
   useEffect(() => {
     async function getUser() {
       try {
-        const response = await axios.get("http://10.110.0.165:3000/user", {
+        const response = await axios.get("/user", {
           headers: {
             Authorization: `Bearer ${token}`,
           },

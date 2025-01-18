@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Layout from "@components/Layout";
 import { View, Text } from "react-native";
 import Button from "@components/Button";
+import "@constants/axiosConfig.js";
 import { router, useLocalSearchParams } from "expo-router";
 import axios from "axios";
 
@@ -14,7 +15,7 @@ const Approval = () => {
     async function getSpp() {
       try {
         const responseDataSpp = await axios.get(
-          "http://10.110.0.165:3000/spp/" + id,
+          "/spp/" + id,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -23,7 +24,7 @@ const Approval = () => {
         );
 
         setDataSpp(responseDataSpp.data);
-        setDetailSpp(responseDataSpp.data.detailSpp)
+        setDetailSpp(responseDataSpp.data.detailSpp);
       } catch (error) {
         console.log("data spp error");
       }
@@ -35,7 +36,7 @@ const Approval = () => {
   async function handleApprove() {
     try {
       await axios.post(
-        "http://10.110.0.165:3000/spp/acc",
+        "/spp/acc",
         {
           approvalStatus: "APPROVED",
           dataSppId: dataSpp.id,
@@ -56,7 +57,7 @@ const Approval = () => {
   async function handleNotApprove() {
     try {
       await axios.post(
-        "http://10.110.0.165:3000/spp/acc",
+        "/spp/acc",
         {
           approvalStatus: "NOT_APPROVED",
           dataSppId: dataSpp.id,

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Layout from "@components/Layout";
 import Button from "@components/Button";
 import colors from "@constants/colors";
+import "@constants/axiosConfig.js";
 import { View, Text } from "react-native";
 import { useLocalSearchParams, router } from "expo-router";
 import axios from "axios";
@@ -14,7 +15,7 @@ const SPPPreview = () => {
     async function getSpp() {
       try {
         const responseDataSpp = await axios.get(
-          "http://10.110.0.165:3000/spp/kode/" + kodeSpp,
+          "/spp/kode/" + kodeSpp,
           {
             headers: {
               Authorization: `Bearer ${token}`,

@@ -5,6 +5,7 @@ import colors from "@constants/colors";
 import { router, useLocalSearchParams } from "expo-router";
 import axios from "axios";
 import Menu from "@components/Menu";
+import "@constants/axiosConfig.js";
 
 const ApprovalList = () => {
   const [listSpp, setListSpp] = useState([]);
@@ -12,7 +13,7 @@ const ApprovalList = () => {
 
   useEffect(() => {
     async function getSpp() {
-      const response = await axios.get("http://10.110.0.165:3000/spp/", {
+      const response = await axios.get("/spp/", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

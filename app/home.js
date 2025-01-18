@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Layout from "@components/Layout";
 import { StyleSheet, Text, View } from "react-native";
 import colors from "@constants/colors";
+import "@constants/axiosConfig.js";
 import Menu from "@components/Menu";
 import { router, useLocalSearchParams } from "expo-router";
 import axios from "axios";
@@ -13,7 +14,7 @@ const Home = () => {
   useEffect(() => {
     async function getUser() {
       try {
-        const response = await axios.get(" http://10.110.0.165:3000/user", {
+        const response = await axios.get("/user", {
           headers: {
             Authorization: `Bearer ${token}`,
           },

@@ -5,6 +5,7 @@ import Button from "@components/Button";
 import colors from "@constants/colors";
 import Input from "@components/Input";
 import Logo from "@components/Logo";
+import "@constants/axiosConfig.js";
 import { router } from "expo-router";
 import { useState } from "react";
 import axios from "axios";
@@ -15,7 +16,7 @@ const Login = () => {
 
   async function handleLogin() {
     try {
-      const response = await axios.post("http://10.110.0.165:3000/user/login", {
+      const response = await axios.post("/user/login", {
         email,
         password,
       });
