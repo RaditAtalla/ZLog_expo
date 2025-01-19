@@ -26,7 +26,7 @@ const Approval = () => {
         setDataSpp(responseDataSpp.data);
         setDetailSpp(responseDataSpp.data.detailSpp);
       } catch (error) {
-        console.log("data spp error");
+        console.log(error.message);
       }
     }
 
@@ -50,7 +50,7 @@ const Approval = () => {
 
       router.replace({ pathname: "/home", params: { token } });
     } catch (error) {
-      console.log("Approve error");
+      console.log(error.message);
     }
   }
 
@@ -70,7 +70,7 @@ const Approval = () => {
       );
       router.replace({ pathname: "/home", params: { token } });
     } catch (error) {
-      console.log("Not Approve error");
+      console.log(error.message);
     }
   }
 

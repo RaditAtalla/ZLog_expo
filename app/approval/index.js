@@ -13,13 +13,17 @@ const ApprovalList = () => {
 
   useEffect(() => {
     async function getSpp() {
-      const response = await axios.get("/spp/", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const data = response.data;
-      setListSpp(data);
+      try {
+        const response = await axios.get("/spp/", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const data = response.data;
+        setListSpp(data);
+      } catch (error) {
+        console.log(error.message);
+      }
     }
 
     getSpp();

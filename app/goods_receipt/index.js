@@ -36,7 +36,7 @@ const GoodsReceipt = () => {
         const data = response.data;
         setUserData(data);
       } catch (error) {
-        console.log(error);
+        console.log(error.message);
       }
     }
 

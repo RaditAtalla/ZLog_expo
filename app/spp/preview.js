@@ -24,7 +24,7 @@ const SPPPreview = () => {
         );
         setDetailSpp(responseDataSpp.data.detailSpp);
       } catch (error) {
-        console.log("data spp error");
+        console.log(error.message);
       }
     }
 

@@ -23,7 +23,7 @@ const Login = () => {
       const token = response.data.token;
       router.push({ pathname: "/home", params: { token } });
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   }
 

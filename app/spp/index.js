@@ -64,7 +64,7 @@ const SPP = () => {
         params: { token, kodeSpp: kode },
       });
     } catch (error) {
-      console.log("post spp error");
+      console.log(error.message);
     }
   }
 
@@ -79,7 +79,7 @@ const SPP = () => {
         const data = response.data;
         setUserData(data);
       } catch (error) {
-        console.log("user error");
+        console.log(error.message);
       }
     }
 
