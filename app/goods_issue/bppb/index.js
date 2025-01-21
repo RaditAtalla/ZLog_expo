@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Layout from "@components/Layout";
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import Input from "@components/Input";
 import Button from "@components/Button";
 import colors from "@constants/colors";
@@ -18,9 +18,22 @@ const BPPBInput = () => {
   const [namaPekerja, setNamaPekerja] = useState();
   const [detailBppb, setDetailBppb] = useState([]);
   const [isOk, setIsOk] = useState(false);
+  const [error, setError] = useState("");
   const { token } = useLocalSearchParams();
 
   function handleNext() {
+    setError("")
+    const volumeToNumber = parseInt(volume)
+    if (!material || !spesifikasi || !volume || !satuan || !lokasi || !namaPekerja) {
+      setError("Harap isi seluruh kolom *")
+      return
+    }
+
+    if (isNaN(volumeToNumber)) {
+      setError("Volume harus angka")
+      return
+    }
+
     setDetailBppb((b) => [
       ...b,
       { material, spesifikasi, volume, satuan, lokasi },
@@ -33,6 +46,18 @@ const BPPBInput = () => {
   }
 
   function handleOk() {
+    setError("")
+    const volumeToNumber = parseInt(volume)
+    if (!material || !spesifikasi || !volume || !satuan || !lokasi || !namaPekerja) {
+      setError("Harap isi seluruh kolom *")
+      return
+    }
+
+    if (isNaN(volumeToNumber)) {
+      setError("Volume harus angka")
+      return
+    }
+
     setDetailBppb((b) => [
       ...b,
       { material, spesifikasi, volume, satuan, lokasi },
@@ -41,8 +66,19 @@ const BPPBInput = () => {
   }
 
   async function handleSubmit() {
-    const kode = "BPPB 05";
+    setError("")
+    const volumeToNumber = parseInt(volume)
+    if (!material || !spesifikasi || !volume || !satuan || !lokasi || !namaPekerja) {
+      setError("Harap isi seluruh kolom *")
+      return
+    }
 
+    if (isNaN(volumeToNumber)) {
+      setError("Volume harus angka")
+      return
+    }
+
+    const kode = "BPPB 01";
     try {
       const postBppb = await axios.post(
         "/goods-issue/bppb",
@@ -59,7 +95,6 @@ const BPPBInput = () => {
       );
 
       const bppbId = postBppb.data.id
-      console.log(bppbId)
 
       router.push({ pathname: "/goods_issue/bppb/preview", params: { token, bppbId }});
     } catch (error) {
@@ -88,6 +123,7 @@ const BPPBInput = () => {
   return (
     <Layout style={{ justifyContent: "space-between" }}>
       <View style={{ gap: 10 }}>
+        {error == "Harap isi seluruh kolom *" && <Text style={{ color: "red" }}>{error}</Text>}
         <Input
           label={"Item material"}
           placeholder={"Item material..."}
@@ -102,9 +138,11 @@ const BPPBInput = () => {
           onChangeText={(text) => setSpesifikasi(text)}
           required
         />
+        {error == "Volume harus angka" && <Text style={{ color: "red" }}>{error}</Text>}
         <Input
           label={"Volume"}
           placeholder={"Volume..."}
+          inputMode={"numeric"}
           value={volume}
           onChangeText={(text) => setVolume(text)}
           required
