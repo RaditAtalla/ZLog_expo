@@ -7,9 +7,13 @@ import colors from "@constants/colors";
 import "@constants/axiosConfig.js";
 import { router, useLocalSearchParams } from "expo-router";
 import axios from "axios";
+import getMonthInRoman from "@lib/utils/getMonthInRoman";
+import getCurrentYear from "@lib/utils/getCurrentYear";
+import getCurrentSppNumbering from "@lib/utils/getCurrentSppNumbering";
 
 const SPP = () => {
   const [userData, setUserData] = useState({});
+  const [projectData, setProjectData] = useState({});
   const [material, setMaterial] = useState("");
   const [lokasi, setLokasi] = useState("");
   const [spesifikasi, setSpesifikasi] = useState("");
@@ -17,21 +21,27 @@ const SPP = () => {
   const [satuan, setSatuan] = useState("");
   const [sppMaterialData, setSppMaterialData] = useState([]);
   const [isSubmit, setIsSubmit] = useState(false);
-  const [error, setError] = useState("")
+  const [error, setError] = useState("");
 
   const { token } = useLocalSearchParams();
 
   function handleNext() {
-    setError("")
-    const volumeToNumber = parseInt(volume)
-    if (!material || !lokasi || !spesifikasi || volumeToNumber == 0 || !satuan) {
-      setError("Harap isi seluruh kolom *")
-      return
+    setError("");
+    const volumeToNumber = parseInt(volume);
+    if (
+      !material ||
+      !lokasi ||
+      !spesifikasi ||
+      volumeToNumber == 0 ||
+      !satuan
+    ) {
+      setError("Harap isi seluruh kolom *");
+      return;
     }
 
     if (isNaN(volumeToNumber)) {
-      setError("Volume harus angka")
-      return
+      setError("Volume harus angka");
+      return;
     }
 
     setSppMaterialData((s) => [
@@ -47,15 +57,21 @@ const SPP = () => {
   }
 
   function handleOk() {
-    const volumeToNumber = parseInt(volume)
-    if (!material || !lokasi || !spesifikasi || volumeToNumber == 0 || !satuan) {
-      setError("Harap isi seluruh kolom *")
-      return
+    const volumeToNumber = parseInt(volume);
+    if (
+      !material ||
+      !lokasi ||
+      !spesifikasi ||
+      volumeToNumber == 0 ||
+      !satuan
+    ) {
+      setError("Harap isi seluruh kolom *");
+      return;
     }
 
     if (isNaN(volumeToNumber)) {
-      setError("Volume harus angka")
-      return
+      setError("Volume harus angka");
+      return;
     }
 
     setSppMaterialData((s) => [
@@ -67,10 +83,14 @@ const SPP = () => {
 
   async function handleSubmit() {
     handleNext();
-    const kode = "SPP-PP-01";
+    const numbering = await getCurrentSppNumbering(token)
+    const projectCode = String(projectData.kode);
+    const currentMonthInRoman = getMonthInRoman();
+    const currentYear = getCurrentYear();
+    const kode = `${numbering}/PP/SPP/${projectCode}/${currentMonthInRoman}/${currentYear}`;
 
     try {
-      await axios.post(
+      const postSpp = await axios.post(
         "/spp",
         {
           kode,
@@ -82,9 +102,12 @@ const SPP = () => {
           },
         }
       );
+
+      const sppId = postSpp.data.id
+
       router.push({
         pathname: "/spp/preview",
-        params: { token, kodeSpp: kode },
+        params: { token, sppId },
       });
     } catch (error) {
       console.log(error.message);
@@ -109,18 +132,39 @@ const SPP = () => {
     getUser();
   }, []);
 
+  useEffect(() => {
+    if (userData?.projectId) {
+      async function getProject() {
+        try {
+          const response = await axios.get(`/project/${userData.projectId}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          const data = response.data;
+          setProjectData(data);
+        } catch (error) {}
+      }
+
+      getProject();
+    }
+  }, [userData]);
+
   if (userData.jabatan == "PM" || userData.jabatan == "SEM") {
-    return(
+    return (
       <Layout style={{ justifyContent: "center", alignItems: "center" }}>
         <Text>Forbidden access</Text>
       </Layout>
-    )
+    );
   }
 
   return (
     <Layout hasBackButton style={{ justifyContent: "space-between" }}>
       <View style={{ flexDirection: "column", gap: 16 }}>
-        { error == "Harap isi seluruh kolom *" && <Text style={{ color: "red" }}>{error}</Text>}
+        {error == "Harap isi seluruh kolom *" && (
+          <Text style={{ color: "red" }}>{error}</Text>
+        )}
         <Input
           label={"Item material"}
           placeholder={"Item material..."}
@@ -135,7 +179,9 @@ const SPP = () => {
           onChangeText={(text) => setSpesifikasi(text)}
           required
         />
-        {error == "Volume harus angka" && <Text style={{ color: "red" }}>{error}</Text>}
+        {error == "Volume harus angka" && (
+          <Text style={{ color: "red" }}>{error}</Text>
+        )}
         <Input
           label={"Volume"}
           placeholder={"Volume..."}

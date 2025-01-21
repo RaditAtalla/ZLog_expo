@@ -9,13 +9,13 @@ import axios from "axios";
 
 const SPPPreview = () => {
   const [detailSpp, setDetailSpp] = useState([{}]);
-  const { token, kodeSpp } = useLocalSearchParams();
+  const { token, sppId } = useLocalSearchParams();
 
   useEffect(() => {
     async function getSpp() {
       try {
         const responseDataSpp = await axios.get(
-          "/spp/kode/" + kodeSpp,
+          `/spp/${sppId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
