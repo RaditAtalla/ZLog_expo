@@ -49,6 +49,7 @@ const _layout = () => {
       <Stack.Screen name="approval/[id]" options={{ title: 'Approval' }} />
       <Stack.Screen name="goods_receipt/index" options={{ title: 'Goods Receipt' }} />
       <Stack.Screen name="goods_receipt/input" options={{ title: 'Input Goods Receipt' }} />
+      <Stack.Screen name="goods_receipt/preview" options={{ title: 'Preview Goods Receipt' }} />
       <Stack.Screen name="goods_issue/index" options={{ title: 'Goods Issue' }} />
       <Stack.Screen name="goods_issue/bppb/index" options={{ title: 'Input BPPB' }} />
       <Stack.Screen name="goods_issue/bppb/preview" options={{ title: 'Preview BPPB' }} />

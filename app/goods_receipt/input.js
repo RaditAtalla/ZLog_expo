@@ -15,10 +15,23 @@ const GoodsReceiptInput = () => {
   const [satuan, setSatuan] = useState();
   const [materialData, setMaterialData] = useState([]);
   const [isOk, setIsOk] = useState(false);
+  const [error, setError] = useState("");
   const { token, tanggal, noSuratJalan, vendor, namaPengantar } =
     useLocalSearchParams();
 
   function handleNext() {
+    setError("");
+    const volumeToNumber = parseInt(volume)
+    if (!material || !spesifikasi || !volume || !satuan) {
+      setError("Harap isi seluruh kolom *");
+      return;
+    }
+
+    if (isNaN(volumeToNumber)) {
+      setError("Volume harus angka")
+      return
+    }
+
     setMaterialData((s) => [...s, { material, spesifikasi, volume, satuan }]);
 
     setMaterial("");
@@ -28,15 +41,38 @@ const GoodsReceiptInput = () => {
   }
 
   function handleOk() {
+    setError("");
+    const volumeToNumber = parseInt(volume)
+    if (!material || !spesifikasi || !volume || !satuan) {
+      setError("Harap isi seluruh kolom *");
+      return;
+    }
+
+    if (isNaN(volumeToNumber)) {
+      setError("Volume harus angka")
+      return
+    }
+
     setMaterialData((s) => [...s, { material, spesifikasi, volume, satuan }]);
     setIsOk(true);
   }
 
   async function handleSubmit() {
-    const noMaterialMasuk = 2001;
+    setError("");
+    const volumeToNumber = parseInt(volume)
+    if (!material || !spesifikasi || !volume || !satuan) {
+      setError("Harap isi seluruh kolom *");
+      return;
+    }
 
+    if (isNaN(volumeToNumber)) {
+      setError("Volume harus angka")
+      return
+    }
+
+    const noMaterialMasuk = 2001;
     try {
-      await axios.post(
+      const postGoodsReceipt = await axios.post(
         "/goods-receipt",
         {
           noMaterialMasuk,
@@ -53,12 +89,14 @@ const GoodsReceiptInput = () => {
         }
       );
 
-      router.replace({
-        pathname: "/home",
-        params: { token },
+      const goodsReceiptId = postGoodsReceipt.data.id
+
+      router.push({
+        pathname: "/goods_receipt/preview",
+        params: { token, goodsReceiptId },
       });
     } catch (error) {
-      console.log(error.message)
+      console.log(error.message);
     }
   }
 
@@ -85,12 +123,17 @@ const GoodsReceiptInput = () => {
     userData.jabatan != "PENBAR" &&
     userData.jabatan != "POP"
   ) {
-    return <Text>Forbidden Access</Text>;
+    return (
+      <Layout style={{ justifyContent: "center", alignItems: "center" }}>
+        <Text>Forbidden access</Text>
+      </Layout>
+    );
   }
 
   return (
     <Layout hasBackButton style={{ justifyContent: "space-between" }}>
       <View style={{ gap: 10 }}>
+        {error == "Harap isi seluruh kolom *" && <Text style={{ color: "red" }}>{error}</Text>}
         <Input
           label={"Item material"}
           placeholder={"Item material..."}
@@ -105,9 +148,11 @@ const GoodsReceiptInput = () => {
           value={spesifikasi}
           required
         />
+        {error == "Volume harus angka" && <Text style={{ color: "red" }}>{error}</Text>}
         <Input
           label={"Volume"}
           placeholder={"Volume..."}
+          inputMode={"numeric"}
           onChangeText={(text) => setVolume(text)}
           value={volume}
           required

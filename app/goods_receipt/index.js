@@ -12,16 +12,28 @@ import CalendarPicker from "react-native-calendar-picker";
 const GoodsReceipt = () => {
   const [userData, setUserData] = useState({});
   const [tanggal, setTanggal] = useState(new Date());
-  const [noSuratJalan, setNoSuratJalan] = useState();
-  const [vendor, setVendor] = useState();
-  const [namaPengantar, setNamaPengantar] = useState();
+  const [noSuratJalan, setNoSuratJalan] = useState("");
+  const [vendor, setVendor] = useState("");
+  const [namaPengantar, setNamaPengantar] = useState("");
+  const [error, setError] = useState("");
   const { token } = useLocalSearchParams();
 
   async function handleNext() {
-    console.log(typeof tanggal.toISOString())
+    setError("");
+    if (noSuratJalan == "" || vendor == "" || namaPengantar == "") {
+      setError("Harap isi seluruh kolom *");
+      return;
+    }
+
     router.push({
       pathname: "goods_receipt/input",
-      params: { token, tanggal: tanggal.toISOString(), noSuratJalan, vendor, namaPengantar },
+      params: {
+        token,
+        tanggal: tanggal.toISOString(),
+        noSuratJalan,
+        vendor,
+        namaPengantar,
+      },
     });
   }
 
@@ -48,13 +60,20 @@ const GoodsReceipt = () => {
     userData.jabatan != "PENBAR" &&
     userData.jabatan != "POP"
   ) {
-    return <Text>Forbidden Access</Text>;
+    return (
+      <Layout style={{ justifyContent: "center", alignItems: "center" }}>
+        <Text>Forbidden access</Text>
+      </Layout>
+    );
   }
 
   return (
     <Layout hasBackButton style={{ justifyContent: "space-between" }}>
       <View style={{ gap: 10 }}>
-        <CalendarPicker mode="date" onDateChange={t => setTanggal(t)} />
+        {error == "Harap isi seluruh kolom *" && (
+          <Text style={{ color: "red" }}>{error}</Text>
+        )}
+        <CalendarPicker mode="date" onDateChange={(t) => setTanggal(t)} />
         <Input
           label={"Nomor surat jalan"}
           placeholder={"Nomor surat jalan..."}
