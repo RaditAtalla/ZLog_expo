@@ -58,7 +58,7 @@ const Home = () => {
             style={styles.menu}
           />
           <Menu
-            onPress={() => router.push("/goods_issue")}
+            onPress={() => router.push({ pathname: "/goods_issue", params: { token }})}
             label={"Goods Issue"}
             style={styles.menu}
           />
