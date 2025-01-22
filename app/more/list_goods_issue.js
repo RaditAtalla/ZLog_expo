@@ -4,14 +4,20 @@ import Logo from "@components/Logo";
 import { Text, View } from "react-native";
 import Menu from "@components/Menu";
 import colors from "@constants/colors";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 
 const ListGoodsIssue = () => {
+  const { token } = useLocalSearchParams();
   return (
     <Layout>
       <View style={{ gap: 10 }}>
         <Menu
-          onPress={() => router.push("goods_issue/bppb/preview")}
+          onPress={() =>
+            router.push({
+              pathname: "/more/list_bppb/",
+              params: { token },
+            })
+          }
           label={"BPPB"}
         />
         <Menu label={"Download Goods Issue"} />

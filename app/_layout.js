@@ -37,23 +37,70 @@ const _layout = () => {
           ),
         }}
       />
-      <Stack.Screen name="more/index" options={{ title: 'More' }} />
-      <Stack.Screen name="more/list_spp/index" options={{ title: 'List SPP' }} />
-      <Stack.Screen name="more/list_spp/[spp_id]" options={{ title: 'Download SPP' }} />
-      <Stack.Screen name="more/list_goods_issue" options={{ title: 'List Goods Issue' }} />
-      <Stack.Screen name="more/list_goods_receipt" options={{ title: 'List Goods Receipt' }} />
-      <Stack.Screen name="more/stock_material" options={{ title: 'Stock Material' }} />
-      <Stack.Screen name="spp/index" options={{ title: 'Input SPP' }} />
-      <Stack.Screen name="spp/preview" options={{ title: 'Preview SPP' }} />
-      <Stack.Screen name="approval/index" options={{ title: 'Approval List' }} />
-      <Stack.Screen name="approval/[id]" options={{ title: 'Approval' }} />
-      <Stack.Screen name="goods_receipt/index" options={{ title: 'Goods Receipt' }} />
-      <Stack.Screen name="goods_receipt/input" options={{ title: 'Input Goods Receipt' }} />
-      <Stack.Screen name="goods_receipt/preview" options={{ title: 'Preview Goods Receipt' }} />
-      <Stack.Screen name="goods_issue/index" options={{ title: 'Goods Issue' }} />
-      <Stack.Screen name="goods_issue/bppb/index" options={{ title: 'Input BPPB' }} />
-      <Stack.Screen name="goods_issue/bppb/preview" options={{ title: 'Preview BPPB' }} />
-      <Stack.Screen name="goods_issue/input_material_keluar" options={{ title: 'Input Material Keluar' }} />
+      <Stack.Screen name="more/index" options={{ title: "More" }} />
+      <Stack.Screen
+        name="more/list_spp/index"
+        options={{ title: "List SPP" }}
+      />
+      <Stack.Screen
+        name="more/list_spp/[spp_id]"
+        options={{ title: "Download SPP" }}
+      />
+      <Stack.Screen
+        name="more/list_goods_issue"
+        options={{ title: "List Goods Issue" }}
+      />
+      <Stack.Screen
+        name="more/list_goods_receipt"
+        options={{ title: "List Goods Receipt" }}
+      />
+      <Stack.Screen
+        name="more/list_bppb/index"
+        options={{ title: "List BPPB" }}
+      />
+      <Stack.Screen
+        name="more/list_bppb/[bppb_id]"
+        options={{ title: "Download BPPB" }}
+      />
+      <Stack.Screen
+        name="more/stock_material"
+        options={{ title: "Stock Material" }}
+      />
+      <Stack.Screen name="spp/index" options={{ title: "Input SPP" }} />
+      <Stack.Screen name="spp/preview" options={{ title: "Preview SPP" }} />
+      <Stack.Screen
+        name="approval/index"
+        options={{ title: "Approval List" }}
+      />
+      <Stack.Screen name="approval/[id]" options={{ title: "Approval" }} />
+      <Stack.Screen
+        name="goods_receipt/index"
+        options={{ title: "Goods Receipt" }}
+      />
+      <Stack.Screen
+        name="goods_receipt/input"
+        options={{ title: "Input Goods Receipt" }}
+      />
+      <Stack.Screen
+        name="goods_receipt/preview"
+        options={{ title: "Preview Goods Receipt" }}
+      />
+      <Stack.Screen
+        name="goods_issue/index"
+        options={{ title: "Goods Issue" }}
+      />
+      <Stack.Screen
+        name="goods_issue/bppb/index"
+        options={{ title: "Input BPPB" }}
+      />
+      <Stack.Screen
+        name="goods_issue/bppb/preview"
+        options={{ title: "Preview BPPB" }}
+      />
+      <Stack.Screen
+        name="goods_issue/input_material_keluar"
+        options={{ title: "Input Material Keluar" }}
+      />
     </Stack>
   );
 };
