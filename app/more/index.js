@@ -5,9 +5,11 @@ import Menu from "@components/Menu";
 import { Archive } from "react-native-feather";
 import Layout from "@components/Layout";
 import Logo from "@components/Logo";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 
 const More = () => {
+  const { token } = useLocalSearchParams();
+
   return (
     <Layout>
       <View style={{ gap: 10 }}>
@@ -17,7 +19,9 @@ const More = () => {
           icon={<Archive color={colors.blue_primary} />}
         />
         <Menu
-          onPress={() => router.push("/more/list_spp")}
+          onPress={() =>
+            router.push({ pathname: "/more/list_spp", params: { token } })
+          }
           label={"List SPP"}
           icon={<Archive color={colors.blue_primary} />}
         />

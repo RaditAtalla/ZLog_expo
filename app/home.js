@@ -25,9 +25,9 @@ const Home = () => {
         console.log(error.message);
       }
     }
-  
+
     getUser();
-  }, [])
+  }, []);
 
   return (
     <Layout statusBarColor={"white"}>
@@ -53,17 +53,24 @@ const Home = () => {
         </View>
         <View style={styles.menuRow}>
           <Menu
-            onPress={() => router.push({ pathname: "/goods_receipt/", params: { token } })}
+            onPress={() =>
+              router.push({ pathname: "/goods_receipt/", params: { token } })
+            }
             label={"Goods Receipt"}
             style={styles.menu}
           />
           <Menu
-            onPress={() => router.push({ pathname: "/goods_issue", params: { token }})}
+            onPress={() =>
+              router.push({ pathname: "/goods_issue", params: { token } })
+            }
             label={"Goods Issue"}
             style={styles.menu}
           />
         </View>
-        <Menu onPress={() => router.push("/more")} label={"More"} />
+        <Menu
+          onPress={() => router.push({ pathname: "/more", params: { token } })}
+          label={"More"}
+        />
       </View>
     </Layout>
   );
