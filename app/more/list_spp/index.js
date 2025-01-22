@@ -75,7 +75,12 @@ const ListSPP = () => {
           {sppData.map((d) => {
             return (
               <Menu
-                onPress={() => router.push("/more/001")}
+                onPress={() =>
+                  router.push({
+                    pathname: `/more/list_spp/${d.id}`,
+                    params: { token, sppId: d.id },
+                  })
+                }
                 key={d.id}
                 label={d.kode}
                 style={{ paddingVertical: 5 }}
