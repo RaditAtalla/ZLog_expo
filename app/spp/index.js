@@ -9,7 +9,7 @@ import { router, useLocalSearchParams } from "expo-router";
 import axios from "axios";
 import getMonthInRoman from "@lib/utils/getMonthInRoman";
 import getCurrentYear from "@lib/utils/getCurrentYear";
-import getCurrentSppNumbering from "@lib/utils/getCurrentSppNumbering";
+import getCurrentNumbering from "@lib/utils/getCurrentNumbering";
 
 const SPP = () => {
   const [userData, setUserData] = useState({});
@@ -83,7 +83,7 @@ const SPP = () => {
 
   async function handleSubmit() {
     handleNext();
-    const numbering = await getCurrentSppNumbering(token)
+    const numbering = await getCurrentNumbering("spp", token)
     const projectCode = String(projectData.kode);
     const currentMonthInRoman = getMonthInRoman();
     const currentYear = getCurrentYear();

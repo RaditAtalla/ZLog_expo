@@ -7,9 +7,13 @@ import colors from "@constants/colors";
 import "@constants/axiosConfig";
 import { router, useLocalSearchParams } from "expo-router";
 import axios from "axios";
+import getMonthInRoman from "@lib/utils/getMonthInRoman";
+import getCurrentYear from "@lib/utils/getCurrentYear";
+import getCurrentNumbering from "@lib/utils/getCurrentNumbering";
 
 const BPPBInput = () => {
   const [userData, setUserData] = useState({});
+  const [projectData, setProjectData] = useState({});
   const [material, setMaterial] = useState();
   const [spesifikasi, setSpesifikasi] = useState();
   const [volume, setVolume] = useState();
@@ -22,16 +26,23 @@ const BPPBInput = () => {
   const { token } = useLocalSearchParams();
 
   function handleNext() {
-    setError("")
-    const volumeToNumber = parseInt(volume)
-    if (!material || !spesifikasi || !volume || !satuan || !lokasi || !namaPekerja) {
-      setError("Harap isi seluruh kolom *")
-      return
+    setError("");
+    const volumeToNumber = parseInt(volume);
+    if (
+      !material ||
+      !spesifikasi ||
+      !volume ||
+      !satuan ||
+      !lokasi ||
+      !namaPekerja
+    ) {
+      setError("Harap isi seluruh kolom *");
+      return;
     }
 
     if (isNaN(volumeToNumber)) {
-      setError("Volume harus angka")
-      return
+      setError("Volume harus angka");
+      return;
     }
 
     setDetailBppb((b) => [
@@ -46,16 +57,23 @@ const BPPBInput = () => {
   }
 
   function handleOk() {
-    setError("")
-    const volumeToNumber = parseInt(volume)
-    if (!material || !spesifikasi || !volume || !satuan || !lokasi || !namaPekerja) {
-      setError("Harap isi seluruh kolom *")
-      return
+    setError("");
+    const volumeToNumber = parseInt(volume);
+    if (
+      !material ||
+      !spesifikasi ||
+      !volume ||
+      !satuan ||
+      !lokasi ||
+      !namaPekerja
+    ) {
+      setError("Harap isi seluruh kolom *");
+      return;
     }
 
     if (isNaN(volumeToNumber)) {
-      setError("Volume harus angka")
-      return
+      setError("Volume harus angka");
+      return;
     }
 
     setDetailBppb((b) => [
@@ -66,19 +84,31 @@ const BPPBInput = () => {
   }
 
   async function handleSubmit() {
-    setError("")
-    const volumeToNumber = parseInt(volume)
-    if (!material || !spesifikasi || !volume || !satuan || !lokasi || !namaPekerja) {
-      setError("Harap isi seluruh kolom *")
-      return
+    setError("");
+    const volumeToNumber = parseInt(volume);
+    if (
+      !material ||
+      !spesifikasi ||
+      !volume ||
+      !satuan ||
+      !lokasi ||
+      !namaPekerja
+    ) {
+      setError("Harap isi seluruh kolom *");
+      return;
     }
 
     if (isNaN(volumeToNumber)) {
-      setError("Volume harus angka")
-      return
+      setError("Volume harus angka");
+      return;
     }
 
-    const kode = "BPPB 01";
+    const numbering = await getCurrentNumbering("goods-issue/bppb", token);
+    const projectCode = String(projectData.kode);
+    const currentMonthInRoman = getMonthInRoman();
+    const currentYear = getCurrentYear();
+    const kode = `${numbering}/PP/BPPB/${projectCode}/${currentMonthInRoman}/${currentYear}`;
+
     try {
       const postBppb = await axios.post(
         "/goods-issue/bppb",
@@ -94,9 +124,12 @@ const BPPBInput = () => {
         }
       );
 
-      const bppbId = postBppb.data.id
+      const bppbId = postBppb.data.id;
 
-      router.push({ pathname: "/goods_issue/bppb/preview", params: { token, bppbId }});
+      router.push({
+        pathname: "/goods_issue/bppb/preview",
+        params: { token, bppbId },
+      });
     } catch (error) {
       console.log(error.message);
     }
@@ -120,10 +153,31 @@ const BPPBInput = () => {
     getUser();
   }, []);
 
+  useEffect(() => {
+    if (userData?.projectId) {
+      async function getProject() {
+        try {
+          const response = await axios.get(`/project/${userData.projectId}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          const data = response.data;
+          setProjectData(data);
+        } catch (error) {}
+      }
+
+      getProject();
+    }
+  }, [userData]);
+
   return (
     <Layout style={{ justifyContent: "space-between" }}>
       <View style={{ gap: 10 }}>
-        {error == "Harap isi seluruh kolom *" && <Text style={{ color: "red" }}>{error}</Text>}
+        {error == "Harap isi seluruh kolom *" && (
+          <Text style={{ color: "red" }}>{error}</Text>
+        )}
         <Input
           label={"Item material"}
           placeholder={"Item material..."}
@@ -138,7 +192,9 @@ const BPPBInput = () => {
           onChangeText={(text) => setSpesifikasi(text)}
           required
         />
-        {error == "Volume harus angka" && <Text style={{ color: "red" }}>{error}</Text>}
+        {error == "Volume harus angka" && (
+          <Text style={{ color: "red" }}>{error}</Text>
+        )}
         <Input
           label={"Volume"}
           placeholder={"Volume..."}
