@@ -10,6 +10,7 @@ import axios from "axios";
 
 const InputMaterialKeluar = () => {
   const [userData, setUserData] = useState({});
+  const [materialData, setMaterialData] = useState([]);
   const [material, setMaterial] = useState("");
   const [spesifikasi, setSpesifikasi] = useState("");
   const [volume, setVolume] = useState(0);
@@ -43,6 +44,15 @@ const InputMaterialKeluar = () => {
     if (isNaN(volumeOutToNumber)) {
       setError("Volume out harus angka");
       return;
+    }
+
+    const materialDataArr = [];
+    materialData.forEach((m) => {
+      materialDataArr.push(m.nama);
+    });
+
+    if (!materialDataArr.includes(material)) {
+      return setError("Material tidak ditemukan");
     }
 
     setGoodsIssueData((s) => [
@@ -80,6 +90,15 @@ const InputMaterialKeluar = () => {
     if (isNaN(volumeOutToNumber)) {
       setError("Volume out harus angka");
       return;
+    }
+
+    const materialDataArr = [];
+    materialData.forEach((m) => {
+      materialDataArr.push(m.nama);
+    });
+
+    if (!materialDataArr.includes(material)) {
+      return setError("Material tidak ditemukan");
     }
 
     setGoodsIssueData((s) => [
@@ -131,7 +150,23 @@ const InputMaterialKeluar = () => {
       }
     }
 
+    async function getMaterial() {
+      try {
+        const response = await axios.get("/material", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const data = response.data;
+        setMaterialData(data);
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+
     getUser();
+    getMaterial();
   }, []);
 
   if (userData.jabatan != "LOGISTIK" && userData.jabatan != "PENBAR") {
@@ -146,6 +181,9 @@ const InputMaterialKeluar = () => {
     <Layout hasBackButton style={{ justifyContent: "space-between" }}>
       <View style={{ flexDirection: "column", gap: 16 }}>
         {error == "Harap isi seluruh kolom *" && (
+          <Text style={{ color: "red" }}>{error}</Text>
+        )}
+        {error == "Material tidak ditemukan" && (
           <Text style={{ color: "red" }}>{error}</Text>
         )}
         <Input
