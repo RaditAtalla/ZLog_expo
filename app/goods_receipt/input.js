@@ -6,6 +6,7 @@ import Button from "@components/Button";
 import colors from "@constants/colors";
 import { router, useLocalSearchParams } from "expo-router";
 import axios from "axios";
+import getCurrentGoodsReceiptNumbering from "@lib/utils/getCurrentGoodsReceiptNumbering";
 
 const GoodsReceiptInput = () => {
   const [userData, setUserData] = useState({});
@@ -70,7 +71,8 @@ const GoodsReceiptInput = () => {
       return
     }
 
-    const noMaterialMasuk = 2001;
+    const noMaterialMasuk = await getCurrentGoodsReceiptNumbering(token)
+    console.log(noMaterialMasuk)
     try {
       const postGoodsReceipt = await axios.post(
         "/goods-receipt",
