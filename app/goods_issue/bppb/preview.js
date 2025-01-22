@@ -9,6 +9,7 @@ import axios from "axios";
 const BPPBPreview = () => {
   const [dataBppb, setDataBppb] = useState({});
   const [detailBppb, setDetailBppb] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const { token, bppbId } = useLocalSearchParams();
 
   useEffect(() => {
@@ -22,6 +23,7 @@ const BPPBPreview = () => {
         const detail = response.data.detailBppb;
         setDataBppb(bppb);
         setDetailBppb(detail);
+        setIsLoading(false);
       } catch (error) {
         console.log(error.message);
       }
@@ -33,22 +35,26 @@ const BPPBPreview = () => {
   return (
     <Layout style={{ justifyContent: "space-between" }}>
       <View>
-        {detailBppb.map((d) => {
-          return (
-            <View key={d.id} style={{ marginBottom: 10 }}>
-              <Text>Material: {d.material}</Text>
-              <Text>spesifikasi: {d.spesifikasi}</Text>
-              <Text>volume: {d.volume}</Text>
-              <Text>satuan: {d.satuan}</Text>
-              <Text>lokasi: {d.lokasi}</Text>
-            </View>
-          );
-        })}
+        {isLoading ? (
+          <Text>loading..</Text>
+        ) : (
+          detailBppb.map((d) => {
+            return (
+              <View key={d.id} style={{ marginBottom: 10 }}>
+                <Text>Material: {d.material}</Text>
+                <Text>spesifikasi: {d.spesifikasi}</Text>
+                <Text>volume: {d.volume}</Text>
+                <Text>satuan: {d.satuan}</Text>
+                <Text>lokasi: {d.lokasi}</Text>
+              </View>
+            );
+          })
+        )}
         <Text></Text>
       </View>
       <Button
         label={"Finish"}
-        onPress={() => router.replace({ pathname: "/home", params: { token }})}
+        onPress={() => router.replace({ pathname: "/home", params: { token } })}
         color={colors.blue_primary}
         style={{ alignSelf: "flex-end" }}
       />
