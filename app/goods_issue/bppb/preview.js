@@ -15,7 +15,7 @@ const BPPBPreview = () => {
   useEffect(() => {
     async function getBppb() {
       try {
-        const response = await axios.get(`/goods-issue/${bppbId}`, {
+        const response = await axios.get(`/goods-issue/bppb/${bppbId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 

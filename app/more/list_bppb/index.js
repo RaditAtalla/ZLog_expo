@@ -18,7 +18,7 @@ export default function ListBppb() {
   useEffect(() => {
     async function getBppb() {
       try {
-        const response = await axios.get("/goods-issue/", {
+        const response = await axios.get("/goods-issue/bppb", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
