@@ -14,6 +14,7 @@ import getCurrentNumbering from "@lib/utils/getCurrentNumbering";
 const BPPBInput = () => {
   const [userData, setUserData] = useState({});
   const [projectData, setProjectData] = useState({});
+  const [materialData, setMaterialData] = useState([]);
   const [material, setMaterial] = useState();
   const [spesifikasi, setSpesifikasi] = useState();
   const [volume, setVolume] = useState();
@@ -43,6 +44,15 @@ const BPPBInput = () => {
     if (isNaN(volumeToNumber)) {
       setError("Volume harus angka");
       return;
+    }
+
+    const materialDataArr = [];
+    materialData.forEach((m) => {
+      materialDataArr.push(m.nama);
+    });
+
+    if (!materialDataArr.includes(material)) {
+      return setError("Material tidak ditemukan");
     }
 
     setDetailBppb((b) => [
@@ -76,6 +86,15 @@ const BPPBInput = () => {
       return;
     }
 
+    const materialDataArr = [];
+    materialData.forEach((m) => {
+      materialDataArr.push(m.nama);
+    });
+
+    if (!materialDataArr.includes(material)) {
+      return setError("Material tidak ditemukan");
+    }
+
     setDetailBppb((b) => [
       ...b,
       { material, spesifikasi, volume, satuan, lokasi },
@@ -101,6 +120,15 @@ const BPPBInput = () => {
     if (isNaN(volumeToNumber)) {
       setError("Volume harus angka");
       return;
+    }
+
+    const materialDataArr = [];
+    materialData.forEach((m) => {
+      materialDataArr.push(m.nama);
+    });
+
+    if (!materialDataArr.includes(material)) {
+      return setError("Material tidak ditemukan");
     }
 
     const numbering = await getCurrentNumbering("goods-issue/bppb", token);
@@ -143,14 +171,30 @@ const BPPBInput = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        const data = response.data;
+        const data = response.data.materialDetail;
         setUserData(data);
       } catch (error) {
         console.log(error.message);
       }
     }
 
+    async function getMaterial() {
+      try {
+        const response = await axios.get("/material", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const data = response.data;
+        setMaterialData(data);
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+
     getUser();
+    getMaterial();
   }, []);
 
   useEffect(() => {
@@ -176,6 +220,9 @@ const BPPBInput = () => {
     <Layout style={{ justifyContent: "space-between" }}>
       <View style={{ gap: 10 }}>
         {error == "Harap isi seluruh kolom *" && (
+          <Text style={{ color: "red" }}>{error}</Text>
+        )}
+        {error == "Material tidak ditemukan" && (
           <Text style={{ color: "red" }}>{error}</Text>
         )}
         <Input
