@@ -72,7 +72,6 @@ const GoodsReceiptInput = () => {
     }
 
     const noMaterialMasuk = await getCurrentGoodsReceiptNumbering(token)
-    console.log(noMaterialMasuk)
     try {
       const postGoodsReceipt = await axios.post(
         "/goods-receipt",
