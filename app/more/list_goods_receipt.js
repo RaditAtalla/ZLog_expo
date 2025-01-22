@@ -8,7 +8,7 @@ const ListGoodsReceipt = () => {
     <Layout>
       <Menu
         label={"Download Goods Receipt"}
-        onPress={handleDownload("goodsReceipt.xlsx")}
+        onPress={() => handleDownload("goodsReceipt.xlsx")}
       />
     </Layout>
   );
