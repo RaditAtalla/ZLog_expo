@@ -25,7 +25,7 @@ const ListSPP = () => {
         </Text>
         <View style={{ gap: 10, marginBottom: 10 }}>
           <Menu
-            onPress={() => router.push("./001")}
+            onPress={() => router.push("/more/001")}
             label={"SPP 001"}
             style={{ paddingVertical: 5 }}
           />

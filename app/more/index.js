@@ -12,22 +12,22 @@ const More = () => {
     <Layout>
       <View style={{ gap: 10 }}>
         <Menu
-          onPress={() => router.push("./stock_material")}
+          onPress={() => router.push("/more/stock_material")}
           label={"Stock Material"}
           icon={<Archive color={colors.blue_primary} />}
         />
         <Menu
-          onPress={() => router.push("./list_spp")}
+          onPress={() => router.push("/more/list_spp")}
           label={"List SPP"}
           icon={<Archive color={colors.blue_primary} />}
         />
         <Menu
-          onPress={() => router.push("./list_goods_receipt")}
+          onPress={() => router.push("/more/list_goods_receipt")}
           label={"List Goods Receipt"}
           icon={<Archive color={colors.blue_primary} />}
         />
         <Menu
-          onPress={() => router.push("./list_goods_issue")}
+          onPress={() => router.push("/more/list_goods_issue")}
           label={"List Goods Issue"}
           icon={<Archive color={colors.blue_primary} />}
         />
