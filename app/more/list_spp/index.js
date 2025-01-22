@@ -15,21 +15,6 @@ const ListSPP = () => {
   const [sppData, setSppData] = useState([]);
   const { token } = useLocalSearchParams();
 
-  const months = [
-    "Januari",
-    "Februari",
-    "Maret",
-    "April",
-    "Mei",
-    "Juni",
-    "Juli",
-    "Agustus",
-    "September",
-    "Oktober",
-    "November",
-    "Desember",
-  ];
-
   useEffect(() => {
     async function getUser() {
       try {
