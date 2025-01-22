@@ -26,7 +26,12 @@ const More = () => {
           icon={<Archive color={colors.blue_primary} />}
         />
         <Menu
-          onPress={() => router.push("/more/list_goods_receipt")}
+          onPress={() =>
+            router.push({
+              pathname: "/more/list_goods_receipt",
+              params: { token },
+            })
+          }
           label={"List Goods Receipt"}
           icon={<Archive color={colors.blue_primary} />}
         />
