@@ -13,6 +13,7 @@ import axios from "axios";
 const ListSPP = () => {
   const [userData, setUserData] = useState({});
   const [sppData, setSppData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const { token } = useLocalSearchParams();
 
   useEffect(() => {
@@ -44,6 +45,7 @@ const ListSPP = () => {
 
         const data = response.data;
         setSppData(data);
+        setIsLoading(false);
       } catch (error) {
         console.log(error.message);
       }
@@ -72,21 +74,25 @@ const ListSPP = () => {
           List SPP
         </Text>
         <View style={{ gap: 10, marginBottom: 10 }}>
-          {sppData.map((d) => {
-            return (
-              <Menu
-                onPress={() =>
-                  router.push({
-                    pathname: `/more/list_spp/${d.id}`,
-                    params: { token, sppId: d.id },
-                  })
-                }
-                key={d.id}
-                label={d.kode}
-                style={{ paddingVertical: 5 }}
-              />
-            );
-          })}
+          {isLoading ? (
+            <Text>Loading...</Text>
+          ) : (
+            sppData.map((d) => {
+              return (
+                <Menu
+                  onPress={() =>
+                    router.push({
+                      pathname: `/more/list_spp/${d.id}`,
+                      params: { token, sppId: d.id },
+                    })
+                  }
+                  key={d.id}
+                  label={d.kode}
+                  style={{ paddingVertical: 5 }}
+                />
+              );
+            })
+          )}
         </View>
       </ScrollView>
       <Button

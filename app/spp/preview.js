@@ -9,20 +9,19 @@ import axios from "axios";
 
 const SPPPreview = () => {
   const [detailSpp, setDetailSpp] = useState([{}]);
+  const [isLoading, setIsLoading] = useState(true);
   const { token, sppId } = useLocalSearchParams();
 
   useEffect(() => {
     async function getSpp() {
       try {
-        const responseDataSpp = await axios.get(
-          `/spp/${sppId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const responseDataSpp = await axios.get(`/spp/${sppId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setDetailSpp(responseDataSpp.data.detailSpp);
+        setIsLoading(false);
       } catch (error) {
         console.log(error.message);
       }
@@ -34,17 +33,21 @@ const SPPPreview = () => {
   return (
     <Layout hasBackButton style={{ justifyContent: "space-between" }}>
       <View style={{ gap: 20 }}>
-        {detailSpp.map((d) => {
-          return (
-            <View key={d.id} style={{ marginBottom: 30 }}>
-              <Text>Material: {d.material}</Text>
-              <Text>spesifikasi: {d.spesifikasi}</Text>
-              <Text>volume: {d.volume}</Text>
-              <Text>satuan: {d.satuan}</Text>
-              <Text>lokasi: {d.lokasi}</Text>
-            </View>
-          );
-        })}
+        {isLoading ? (
+          <Text>Loading...</Text>
+        ) : (
+          detailSpp.map((d) => {
+            return (
+              <View key={d.id} style={{ marginBottom: 30 }}>
+                <Text>Material: {d.material}</Text>
+                <Text>spesifikasi: {d.spesifikasi}</Text>
+                <Text>volume: {d.volume}</Text>
+                <Text>satuan: {d.satuan}</Text>
+                <Text>lokasi: {d.lokasi}</Text>
+              </View>
+            );
+          })
+        )}
       </View>
       <Button
         label={"Finish"}

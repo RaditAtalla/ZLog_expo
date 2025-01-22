@@ -9,22 +9,21 @@ import axios from "axios";
 const Approval = () => {
   const [dataSpp, setDataSpp] = useState();
   const [detailSpp, setDetailSpp] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const { token, id } = useLocalSearchParams();
 
   useEffect(() => {
     async function getSpp() {
       try {
-        const responseDataSpp = await axios.get(
-          "/spp/" + id,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const responseDataSpp = await axios.get("/spp/" + id, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
         setDataSpp(responseDataSpp.data);
         setDetailSpp(responseDataSpp.data.detailSpp);
+        setIsLoading(false);
       } catch (error) {
         console.log(error.message);
       }
@@ -79,17 +78,21 @@ const Approval = () => {
       hasBackButton
       style={{ justifyContent: "space-between", paddingTop: 50 }}
     >
-      {detailSpp.map((d) => {
-        return (
-          <View key={d.id} style={{ marginBottom: 30 }}>
-            <Text>Material: {d.material}</Text>
-            <Text>spesifikasi: {d.spesifikasi}</Text>
-            <Text>volume: {d.volume}</Text>
-            <Text>satuan: {d.satuan}</Text>
-            <Text>lokasi: {d.lokasi}</Text>
-          </View>
-        );
-      })}
+      {isLoading ? (
+        <Text>Loading...</Text>
+      ) : (
+        detailSpp.map((d) => {
+          return (
+            <View key={d.id} style={{ marginBottom: 30 }}>
+              <Text>Material: {d.material}</Text>
+              <Text>spesifikasi: {d.spesifikasi}</Text>
+              <Text>volume: {d.volume}</Text>
+              <Text>satuan: {d.satuan}</Text>
+              <Text>lokasi: {d.lokasi}</Text>
+            </View>
+          );
+        })
+      )}
       <View>
         <Button label={"Approve"} color={"green"} onPress={handleApprove} />
         <Button

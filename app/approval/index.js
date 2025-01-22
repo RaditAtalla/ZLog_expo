@@ -9,6 +9,7 @@ import "@constants/axiosConfig.js";
 
 const ApprovalList = () => {
   const [listSpp, setListSpp] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const { token } = useLocalSearchParams();
 
   useEffect(() => {
@@ -21,6 +22,7 @@ const ApprovalList = () => {
         });
         const data = response.data;
         setListSpp(data);
+        setIsLoading(false);
       } catch (error) {
         console.log(error.message);
       }
@@ -41,21 +43,25 @@ const ApprovalList = () => {
       >
         SPP waiting for your approval
       </Text>
-      {listSpp.map((spp) => {
-        return (
-          <View key={spp.id}>
-            <Menu
-              onPress={() =>
-                router.push({
-                  pathname: "approval/[id]",
-                  params: { token, id: spp.id },
-                })
-              }
-              label={spp.kode}
-            />
-          </View>
-        );
-      })}
+      {isLoading ? (
+        <Text>Loading...</Text>
+      ) : (
+        listSpp.map((spp) => {
+          return (
+            <View key={spp.id}>
+              <Menu
+                onPress={() =>
+                  router.push({
+                    pathname: "approval/[id]",
+                    params: { token, id: spp.id },
+                  })
+                }
+                label={spp.kode}
+              />
+            </View>
+          );
+        })
+      )}
     </Layout>
   );
 };

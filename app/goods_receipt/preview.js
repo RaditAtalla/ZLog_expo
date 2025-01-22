@@ -9,6 +9,7 @@ import axios from "axios";
 
 const GoodsReceiptPreview = () => {
   const [goodsReceiptDetail, setGoodsReceiptDetail] = useState([{}]);
+  const [isLoading, setIsLoading] = useState(true);
   const { token, goodsReceiptId } = useLocalSearchParams();
 
   useEffect(() => {
@@ -23,6 +24,7 @@ const GoodsReceiptPreview = () => {
           }
         );
         setGoodsReceiptDetail(responseGoodsReceipt.data.goodsReceiptDetail);
+        setIsLoading(false);
       } catch (error) {
         console.log(error.message);
       }
@@ -34,16 +36,20 @@ const GoodsReceiptPreview = () => {
   return (
     <Layout hasBackButton style={{ justifyContent: "space-between" }}>
       <View style={{ gap: 20 }}>
-        {goodsReceiptDetail.map((d) => {
-          return (
-            <View key={d.id} style={{ marginBottom: 30 }}>
-              <Text>Material: {d.material}</Text>
-              <Text>spesifikasi: {d.spesifikasi}</Text>
-              <Text>volume: {d.volume}</Text>
-              <Text>satuan: {d.satuan}</Text>
-            </View>
-          );
-        })}
+        {isLoading ? (
+          <Text>Loading...</Text>
+        ) : (
+          goodsReceiptDetail.map((d) => {
+            return (
+              <View key={d.id} style={{ marginBottom: 30 }}>
+                <Text>Material: {d.material}</Text>
+                <Text>spesifikasi: {d.spesifikasi}</Text>
+                <Text>volume: {d.volume}</Text>
+                <Text>satuan: {d.satuan}</Text>
+              </View>
+            );
+          })
+        )}
       </View>
       <Button
         label={"Finish"}
