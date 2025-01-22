@@ -22,15 +22,15 @@ const GoodsReceiptInput = () => {
 
   function handleNext() {
     setError("");
-    const volumeToNumber = parseInt(volume)
+    const volumeToNumber = parseInt(volume);
     if (!material || !spesifikasi || !volume || !satuan) {
       setError("Harap isi seluruh kolom *");
       return;
     }
 
     if (isNaN(volumeToNumber)) {
-      setError("Volume harus angka")
-      return
+      setError("Volume harus angka");
+      return;
     }
 
     setMaterialData((s) => [...s, { material, spesifikasi, volume, satuan }]);
@@ -43,15 +43,15 @@ const GoodsReceiptInput = () => {
 
   function handleOk() {
     setError("");
-    const volumeToNumber = parseInt(volume)
+    const volumeToNumber = parseInt(volume);
     if (!material || !spesifikasi || !volume || !satuan) {
       setError("Harap isi seluruh kolom *");
       return;
     }
 
     if (isNaN(volumeToNumber)) {
-      setError("Volume harus angka")
-      return
+      setError("Volume harus angka");
+      return;
     }
 
     setMaterialData((s) => [...s, { material, spesifikasi, volume, satuan }]);
@@ -60,18 +60,18 @@ const GoodsReceiptInput = () => {
 
   async function handleSubmit() {
     setError("");
-    const volumeToNumber = parseInt(volume)
+    const volumeToNumber = parseInt(volume);
     if (!material || !spesifikasi || !volume || !satuan) {
       setError("Harap isi seluruh kolom *");
       return;
     }
 
     if (isNaN(volumeToNumber)) {
-      setError("Volume harus angka")
-      return
+      setError("Volume harus angka");
+      return;
     }
 
-    const noMaterialMasuk = await getCurrentGoodsReceiptNumbering(token)
+    const noMaterialMasuk = await getCurrentGoodsReceiptNumbering(token);
     try {
       const postGoodsReceipt = await axios.post(
         "/goods-receipt",
@@ -90,7 +90,19 @@ const GoodsReceiptInput = () => {
         }
       );
 
-      const goodsReceiptId = postGoodsReceipt.data.id
+      await axios.post(
+        "/material",
+        {
+          data: materialData,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const goodsReceiptId = postGoodsReceipt.data.id;
 
       router.push({
         pathname: "/goods_receipt/preview",
@@ -134,7 +146,9 @@ const GoodsReceiptInput = () => {
   return (
     <Layout hasBackButton style={{ justifyContent: "space-between" }}>
       <View style={{ gap: 10 }}>
-        {error == "Harap isi seluruh kolom *" && <Text style={{ color: "red" }}>{error}</Text>}
+        {error == "Harap isi seluruh kolom *" && (
+          <Text style={{ color: "red" }}>{error}</Text>
+        )}
         <Input
           label={"Item material"}
           placeholder={"Item material..."}
@@ -149,7 +163,9 @@ const GoodsReceiptInput = () => {
           value={spesifikasi}
           required
         />
-        {error == "Volume harus angka" && <Text style={{ color: "red" }}>{error}</Text>}
+        {error == "Volume harus angka" && (
+          <Text style={{ color: "red" }}>{error}</Text>
+        )}
         <Input
           label={"Volume"}
           placeholder={"Volume..."}
