@@ -1,25 +1,45 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "@components/Layout";
-import { View } from "react-native";
-import Button from "@components/Button";
-import colors from "@constants/colors";
+import { Text, View } from "react-native";
+import { useLocalSearchParams } from "expo-router";
+import axios from "axios";
 
 const StockMaterial = () => {
+  const [materialData, setMaterialData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const { token } = useLocalSearchParams();
+
+  useEffect(() => {
+    async function getMaterial() {
+      try {
+        const response = await axios.get("/material", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const data = response.data;
+        setMaterialData(data);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+
+    getMaterial();
+  }, []);
+
   return (
-    <Layout style={{ justifyContent: "space-between" }}>
-      <View
-        style={{
-          borderWidth: 1,
-          borderColor: "black",
-          height: 300,
-          width: "100%",
-        }}
-      />
-      <Button
-        label={"Next"}
-        color={colors.blue_primary}
-        style={{ alignSelf: "flex-end" }}
-      />
+    <Layout>
+      <View>
+        {isLoading ? (
+          <Text>Loading...</Text>
+        ) : (
+          materialData.map((m) => {
+            return <Text key={m.id}>Material: {m.nama}</Text>;
+          })
+        )}
+      </View>
     </Layout>
   );
 };

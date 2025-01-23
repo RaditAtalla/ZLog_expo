@@ -14,7 +14,9 @@ const More = () => {
     <Layout>
       <View style={{ gap: 10 }}>
         <Menu
-          onPress={() => router.push("/more/stock_material")}
+          onPress={() =>
+            router.push({ pathname: "/more/stock_material", params: { token } })
+          }
           label={"Stock Material"}
           icon={<Archive color={colors.blue_primary} />}
         />
