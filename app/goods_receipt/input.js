@@ -103,7 +103,6 @@ const GoodsReceiptInput = () => {
       );
 
       const goodsReceiptId = postGoodsReceipt.data.id;
-
       router.push({
         pathname: "/goods_receipt/preview",
         params: { token, goodsReceiptId },

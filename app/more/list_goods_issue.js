@@ -22,7 +22,7 @@ const ListGoodsIssue = () => {
         />
         <Menu
           label={"Download Goods Issue"}
-          onPress={handleDownload("goodsIssue.xlsx")}
+          onPress={() => handleDownload("goodsIssue.xlsx")}
         />
       </View>
     </Layout>
