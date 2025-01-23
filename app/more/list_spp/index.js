@@ -54,6 +54,18 @@ const ListSPP = () => {
     getSpp();
   }, [userData]);
 
+  if (
+    userData.jabatan != "PM" &&
+    userData.jabatan != "SEM" &&
+    userData.jabatan != "POP"
+  ) {
+    return (
+      <Layout style={{ justifyContent: "center", alignItems: "center" }}>
+        <Text>Forbidden access</Text>
+      </Layout>
+    );
+  }
+
   return (
     <Layout>
       <FloatingButton
