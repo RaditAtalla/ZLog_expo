@@ -39,6 +39,7 @@ const StockMaterial = () => {
             return <Text key={m.id}>Material: {m.nama}</Text>;
           })
         )}
+        {materialData.length == 0 && <Text>Tidak ada data</Text>}
       </View>
     </Layout>
   );

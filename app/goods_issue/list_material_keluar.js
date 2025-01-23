@@ -50,6 +50,7 @@ export default function ListMaterialKelaur() {
             return <Text key={d.id}>material: {d.material}</Text>;
           })
         )}
+        {detailGoodsIssue.length == 0 && <Text>Tidak ada data</Text>}
       </View>
     </Layout>
   );

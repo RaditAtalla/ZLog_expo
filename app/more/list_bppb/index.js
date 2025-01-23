@@ -74,6 +74,7 @@ export default function ListBppb() {
               );
             })
           )}
+          {bppbData.length == 0 && <Text>Tidak ada data</Text>}
         </View>
       </ScrollView>
       <Button

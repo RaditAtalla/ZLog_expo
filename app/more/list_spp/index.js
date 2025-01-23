@@ -88,6 +88,7 @@ const ListSPP = () => {
               );
             })
           )}
+          {sppData.length == 0 && <Text>Tidak ada data</Text>}
         </View>
       </ScrollView>
       <Button
