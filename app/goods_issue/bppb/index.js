@@ -10,9 +10,9 @@ import axios from "axios";
 import getMonthInRoman from "@lib/utils/getMonthInRoman";
 import getCurrentYear from "@lib/utils/getCurrentYear";
 import getCurrentNumbering from "@lib/utils/getCurrentNumbering";
+import useUser from "@lib/hooks/useUser";
 
 const BPPBInput = () => {
-  const [userData, setUserData] = useState({});
   const [projectData, setProjectData] = useState({});
   const [material, setMaterial] = useState();
   const [spesifikasi, setSpesifikasi] = useState();
@@ -24,6 +24,7 @@ const BPPBInput = () => {
   const [isOk, setIsOk] = useState(false);
   const [error, setError] = useState("");
   const { token } = useLocalSearchParams();
+  const userData = useUser(token);
 
   function handleNext() {
     setError("");
@@ -134,24 +135,6 @@ const BPPBInput = () => {
       console.log(error.message);
     }
   }
-
-  useEffect(() => {
-    async function getUser() {
-      try {
-        const response = await axios.get("/user", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        const data = response.data.materialDetail;
-        setUserData(data);
-      } catch (error) {
-        console.log(error.message);
-      }
-    }
-
-    getUser();
-  }, []);
 
   useEffect(() => {
     if (userData?.projectId) {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Layout from "@components/Layout";
 import { View, Text } from "react-native";
 import Input from "@components/Input";
@@ -7,9 +7,9 @@ import colors from "@constants/colors";
 import { router, useLocalSearchParams } from "expo-router";
 import axios from "axios";
 import getCurrentGoodsReceiptNumbering from "@lib/utils/getCurrentGoodsReceiptNumbering";
+import useUser from "@lib/hooks/useUser";
 
 const GoodsReceiptInput = () => {
-  const [userData, setUserData] = useState({});
   const [material, setMaterial] = useState();
   const [spesifikasi, setSpesifikasi] = useState();
   const [volume, setVolume] = useState();
@@ -19,6 +19,7 @@ const GoodsReceiptInput = () => {
   const [error, setError] = useState("");
   const { token, tanggal, noSuratJalan, vendor, namaPengantar } =
     useLocalSearchParams();
+  const userData = useUser(token);
 
   function handleNext() {
     setError("");
@@ -111,24 +112,6 @@ const GoodsReceiptInput = () => {
       console.log(error.message);
     }
   }
-
-  useEffect(() => {
-    async function getUser() {
-      try {
-        const response = await axios.get("/user", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        const data = response.data;
-        setUserData(data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-
-    getUser();
-  }, []);
 
   if (
     userData.jabatan != "LOGISTIK" &&

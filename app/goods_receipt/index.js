@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Layout from "@components/Layout";
 import { Text, View } from "react-native";
 import Input from "@components/Input";
@@ -6,17 +6,17 @@ import Button from "@components/Button";
 import colors from "@constants/colors";
 import "@constants/axiosConfig";
 import { router, useLocalSearchParams } from "expo-router";
-import axios from "axios";
 import CalendarPicker from "react-native-calendar-picker";
+import useUser from "@lib/hooks/useUser";
 
 const GoodsReceipt = () => {
-  const [userData, setUserData] = useState({});
   const [tanggal, setTanggal] = useState(new Date());
   const [noSuratJalan, setNoSuratJalan] = useState("");
   const [vendor, setVendor] = useState("");
   const [namaPengantar, setNamaPengantar] = useState("");
   const [error, setError] = useState("");
   const { token } = useLocalSearchParams();
+  const userData = useUser(token);
 
   async function handleNext() {
     setError("");
@@ -36,24 +36,6 @@ const GoodsReceipt = () => {
       },
     });
   }
-
-  useEffect(() => {
-    async function getUser() {
-      try {
-        const response = await axios.get("/user", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        const data = response.data;
-        setUserData(data);
-      } catch (error) {
-        console.log(error.message);
-      }
-    }
-
-    getUser();
-  }, []);
 
   if (
     userData.jabatan != "LOGISTIK" &&

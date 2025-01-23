@@ -9,30 +9,13 @@ import { Download, Plus } from "react-native-feather";
 import { router, useLocalSearchParams } from "expo-router";
 import FloatingButton from "@components/FloatingButton";
 import axios from "axios";
+import useUser from "@lib/hooks/useUser";
 
 const ListSPP = () => {
-  const [userData, setUserData] = useState({});
   const [sppData, setSppData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { token } = useLocalSearchParams();
-
-  useEffect(() => {
-    async function getUser() {
-      try {
-        const response = await axios.get("/user", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        const data = response.data;
-        setUserData(data);
-      } catch (error) {
-        console.log(error.message);
-      }
-    }
-
-    getUser();
-  }, []);
+  const userData = useUser(token);
 
   useEffect(() => {
     async function getSpp() {

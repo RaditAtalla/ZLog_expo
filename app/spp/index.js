@@ -10,9 +10,9 @@ import axios from "axios";
 import getMonthInRoman from "@lib/utils/getMonthInRoman";
 import getCurrentYear from "@lib/utils/getCurrentYear";
 import getCurrentNumbering from "@lib/utils/getCurrentNumbering";
+import useUser from "@lib/hooks/useUser";
 
 const SPP = () => {
-  const [userData, setUserData] = useState({});
   const [projectData, setProjectData] = useState({});
   const [material, setMaterial] = useState("");
   const [lokasi, setLokasi] = useState("");
@@ -24,6 +24,7 @@ const SPP = () => {
   const [error, setError] = useState("");
 
   const { token } = useLocalSearchParams();
+  const userData = useUser(token);
 
   function handleNext() {
     setError("");
@@ -83,7 +84,7 @@ const SPP = () => {
 
   async function handleSubmit() {
     handleNext();
-    const numbering = await getCurrentNumbering("spp", token)
+    const numbering = await getCurrentNumbering("spp", token);
     const projectCode = String(projectData.kode);
     const currentMonthInRoman = getMonthInRoman();
     const currentYear = getCurrentYear();
@@ -103,7 +104,7 @@ const SPP = () => {
         }
       );
 
-      const sppId = postSpp.data.id
+      const sppId = postSpp.data.id;
 
       router.push({
         pathname: "/spp/preview",
@@ -113,24 +114,6 @@ const SPP = () => {
       console.log(error.message);
     }
   }
-
-  useEffect(() => {
-    async function getUser() {
-      try {
-        const response = await axios.get("/user", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        const data = response.data;
-        setUserData(data);
-      } catch (error) {
-        console.log(error.message);
-      }
-    }
-
-    getUser();
-  }, []);
 
   useEffect(() => {
     if (userData?.projectId) {

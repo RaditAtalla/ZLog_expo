@@ -7,9 +7,9 @@ import colors from "@constants/colors";
 import "@constants/axiosConfig.js";
 import { router, useLocalSearchParams } from "expo-router";
 import axios from "axios";
+import useUser from "@lib/hooks/useUser";
 
 const InputMaterialKeluar = () => {
-  const [userData, setUserData] = useState({});
   const [material, setMaterial] = useState("");
   const [spesifikasi, setSpesifikasi] = useState("");
   const [volume, setVolume] = useState(0);
@@ -19,6 +19,7 @@ const InputMaterialKeluar = () => {
   const [isSubmit, setIsSubmit] = useState(false);
   const [error, setError] = useState("");
   const { token } = useLocalSearchParams();
+  const userData = useUser(token);
 
   function handleNext() {
     setError("");
@@ -115,24 +116,6 @@ const InputMaterialKeluar = () => {
       console.log(error.message);
     }
   }
-
-  useEffect(() => {
-    async function getUser() {
-      try {
-        const response = await axios.get("/user", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        const data = response.data.materialData;
-        setUserData(data);
-      } catch (error) {
-        console.log(error.message);
-      }
-    }
-
-    getUser();
-  }, []);
 
   if (userData.jabatan != "LOGISTIK" && userData.jabatan != "PENBAR") {
     return (

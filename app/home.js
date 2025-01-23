@@ -5,29 +5,11 @@ import colors from "@constants/colors";
 import "@constants/axiosConfig.js";
 import Menu from "@components/Menu";
 import { router, useLocalSearchParams } from "expo-router";
-import axios from "axios";
+import useUser from "@lib/hooks/useUser";
 
 const Home = () => {
-  const [userData, setUserData] = useState({});
   const { token } = useLocalSearchParams();
-
-  useEffect(() => {
-    async function getUser() {
-      try {
-        const response = await axios.get("/user", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        const data = response.data;
-        setUserData(data);
-      } catch (error) {
-        console.log(error.message);
-      }
-    }
-
-    getUser();
-  }, []);
+  const userData = useUser(token);
 
   return (
     <Layout statusBarColor={"white"}>

@@ -1,10 +1,9 @@
 import React from "react";
 import colors from "@constants/colors";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import Menu from "@components/Menu";
 import { Archive } from "react-native-feather";
 import Layout from "@components/Layout";
-import Logo from "@components/Logo";
 import { router, useLocalSearchParams } from "expo-router";
 
 const More = () => {
