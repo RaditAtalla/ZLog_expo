@@ -7,8 +7,11 @@ import "@constants/axiosConfig";
 import { Download } from "react-native-feather";
 import { useLocalSearchParams } from "expo-router";
 import axios from "axios";
+import changeSlashToDash from "@lib/utils/changeSlashToDash";
+import handleDownloadFromAPI from "@lib/utils/handleDownloadFromAPI";
 
 const SPPDownload = () => {
+  const [dataSpp, setDataSpp] = useState({});
   const [detailSpp, setDetailSpp] = useState([]);
   const { token, sppId } = useLocalSearchParams();
 
@@ -21,8 +24,10 @@ const SPPDownload = () => {
           },
         });
 
-        const data = response.data.detailSpp;
-        setDetailSpp(data);
+        const data = response.data;
+        const detail = response.data.detailSpp;
+        setDataSpp(data);
+        setDetailSpp(detail);
       } catch (error) {
         console.log(error.message);
       }
@@ -40,6 +45,13 @@ const SPPDownload = () => {
       </View>
       <Button
         label={"Download"}
+        onPress={() =>
+          handleDownloadFromAPI(
+            `spp/download/${dataSpp.id}`,
+            `${changeSlashToDash(dataSpp.kode)}.pdf`,
+            token
+          )
+        }
         icon={<Download color={"white"} />}
         color={colors.blue_primary}
       />
