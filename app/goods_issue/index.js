@@ -22,15 +22,6 @@ const GoodsIssue = () => {
         }
         label={"Input Material Keluar"}
       />
-      <Menu
-        onPress={() =>
-          router.push({
-            pathname: "/goods_issue/list_material_keluar",
-            params: { token },
-          })
-        }
-        label={"Lihat Material Keluar"}
-      />
     </Layout>
   );
 };
