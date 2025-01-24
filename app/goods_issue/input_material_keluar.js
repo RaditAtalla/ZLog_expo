@@ -12,7 +12,6 @@ import useUser from "@lib/hooks/useUser";
 const InputMaterialKeluar = () => {
   const [material, setMaterial] = useState("");
   const [spesifikasi, setSpesifikasi] = useState("");
-  const [volume, setVolume] = useState(0);
   const [volumeOut, setVolumeOut] = useState(0);
   const [satuan, setSatuan] = useState("");
   const [goodsIssueData, setGoodsIssueData] = useState([]);
@@ -23,21 +22,9 @@ const InputMaterialKeluar = () => {
 
   function handleNext() {
     setError("");
-    const volumeToNumber = parseInt(volume);
     const volumeOutToNumber = parseInt(volumeOut);
-    if (
-      !material ||
-      !spesifikasi ||
-      volumeToNumber == 0 ||
-      volumeOutToNumber == 0 ||
-      !satuan
-    ) {
+    if (!material || !spesifikasi || volumeOutToNumber == 0 || !satuan) {
       setError("Harap isi seluruh kolom *");
-      return;
-    }
-
-    if (isNaN(volumeToNumber)) {
-      setError("Volume harus angka");
       return;
     }
 
@@ -48,33 +35,20 @@ const InputMaterialKeluar = () => {
 
     setGoodsIssueData((s) => [
       ...s,
-      { material, spesifikasi, volume, satuan, volumeOut },
+      { material, spesifikasi, satuan, volumeOut },
     ]);
 
     setMaterial("");
     setSpesifikasi("");
-    setVolume("");
     setVolumeOut("");
     setSatuan("");
   }
 
   function handleOk() {
     setError("");
-    const volumeToNumber = parseInt(volume);
     const volumeOutToNumber = parseInt(volumeOut);
-    if (
-      !material ||
-      !spesifikasi ||
-      volumeToNumber == 0 ||
-      volumeOutToNumber == 0 ||
-      !satuan
-    ) {
+    if (!material || !spesifikasi || volumeOutToNumber == 0 || !satuan) {
       setError("Harap isi seluruh kolom *");
-      return;
-    }
-
-    if (isNaN(volumeToNumber)) {
-      setError("Volume harus angka");
       return;
     }
 
@@ -85,7 +59,7 @@ const InputMaterialKeluar = () => {
 
     setGoodsIssueData((s) => [
       ...s,
-      { material, spesifikasi, volume, satuan, volumeOut },
+      { material, spesifikasi, satuan, volumeOut },
     ]);
     setIsSubmit(true);
   }
@@ -148,14 +122,6 @@ const InputMaterialKeluar = () => {
         {error == "Volume harus angka" && (
           <Text style={{ color: "red" }}>{error}</Text>
         )}
-        <Input
-          label={"Volume"}
-          placeholder={"Volume..."}
-          inputMode={"numeric"}
-          required
-          value={volume}
-          onChangeText={(text) => setVolume(text)}
-        />
         <Input
           label={"Volume Keluar"}
           placeholder={"Volume keluar..."}

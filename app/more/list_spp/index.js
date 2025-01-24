@@ -91,11 +91,6 @@ const ListSPP = () => {
           {sppData.length == 0 && <Text>Tidak ada data</Text>}
         </View>
       </ScrollView>
-      <Button
-        color={colors.blue_primary}
-        label={"Download"}
-        icon={<Download color={"white"} />}
-      />
     </Layout>
   );
 };

@@ -1,7 +1,6 @@
 import React from "react";
 import Layout from "@components/Layout";
 import Menu from "@components/Menu";
-import handleDownloadFromPublic from "@lib/utils/handleDownloadFromPublic";
 import handleDownloadFromAPI from "../../lib/utils/handleDownloadFromAPI";
 import { useLocalSearchParams } from "expo-router";
 

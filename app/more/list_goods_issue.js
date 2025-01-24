@@ -3,7 +3,7 @@ import Layout from "@components/Layout";
 import { View } from "react-native";
 import Menu from "@components/Menu";
 import { router, useLocalSearchParams } from "expo-router";
-import handleDownloadFromPublic from "@lib/utils/handleDownloadFromPublic";
+import handleDownloadFromAPI from "@lib/utils/handleDownloadFromAPI";
 
 const ListGoodsIssue = () => {
   const { token } = useLocalSearchParams();
@@ -22,7 +22,13 @@ const ListGoodsIssue = () => {
         />
         <Menu
           label={"Download Goods Issue"}
-          onPress={() => handleDownloadFromPublic("goodsIssue.xlsx")}
+          onPress={() =>
+            handleDownloadFromAPI(
+              "/goods-issue/download",
+              "GoodsIssue.pdf",
+              token
+            )
+          }
         />
       </View>
     </Layout>
