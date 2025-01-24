@@ -94,10 +94,6 @@ const _layout = () => {
         options={{ title: "Preview Goods Issue" }}
       />
       <Stack.Screen
-        name="goods_issue/list_material_keluar"
-        options={{ title: "List material keluar" }}
-      />
-      <Stack.Screen
         name="goods_issue/bppb/index"
         options={{ title: "Input BPPB" }}
       />
