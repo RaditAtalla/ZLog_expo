@@ -1,15 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Layout from "@components/Layout";
-import { Alert, StyleSheet, Text, View } from "react-native";
+import { Alert, Text, View } from "react-native";
 import colors from "@constants/colors";
 import "@constants/axiosConfig.js";
 import ROLE from "@constants/roles";
-import Menu from "@components/Menu";
-import { router, useLocalSearchParams } from "expo-router";
-import useUser from "@lib/hooks/useUser";
+import { useLocalSearchParams } from "expo-router";
 import Button from "@components/Button";
 import Input from "@components/Input";
-import Dropdown from "../components/Dropdown";
+import Dropdown from "@components/Dropdown";
 import axios from "axios";
 
 const AddAccount = () => {
@@ -40,13 +38,21 @@ const AddAccount = () => {
     }
 
     try {
-      await axios.post("/user/register", {
-        nama: accountData.nama,
-        nomorHp: accountData.nomorHp,
-        email: accountData.email,
-        password: accountData.password,
-        jabatan: accountData.jabatan.label,
-      });
+      await axios.post(
+        "/user/register",
+        {
+          nama: accountData.nama,
+          nomorHp: accountData.nomorHp,
+          email: accountData.email,
+          password: accountData.password,
+          jabatan: accountData.jabatan.label,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       Alert.alert(`${accountData.nama} berhasil ditambah`);
 
@@ -102,7 +108,7 @@ const AddAccount = () => {
           placeholder={"Password..."}
           password
           required
-          value={accountData.satuan}
+          value={accountData.password}
           onChangeText={(text) =>
             setAccountData({ ...accountData, password: text })
           }
@@ -115,9 +121,9 @@ const AddAccount = () => {
           placeholder={"Konfirmasi Password..."}
           password
           required
-          value={accountData.satuan}
+          value={accountData.konfirmasiPassword}
           onChangeText={(text) =>
-            setAccountData({ ...accountData, password: text })
+            setAccountData({ ...accountData, konfirmasiPassword: text })
           }
         />
         <Dropdown

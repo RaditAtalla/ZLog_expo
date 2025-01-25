@@ -29,7 +29,7 @@ const Home = () => {
             <View style={styles.menuRow}>
               <Menu
                 onPress={() =>
-                  router.push({ pathname: "/spp", params: { token } })
+                  router.push({ pathname: "/add_project", params: { token } })
                 }
                 label={"Add Project"}
                 style={styles.menu}
