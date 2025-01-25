@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    color: "black",
+    color: COLORS.blue_primary,
     fontSize: 12,
     fontFamily: "InterMedium",
   },
