@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from "react-native";
 import { Dropdown as DropdownList } from "react-native-element-dropdown";
 import COLORS from "../constants/colors";
 
-const Dropdown = ({ label, style, data, placeholder, required }) => {
+const Dropdown = ({ label, style, data, placeholder, required, ...res }) => {
   return (
     <View style={[styles.container, style]}>
       <Text style={styles.text}>
@@ -20,6 +20,7 @@ const Dropdown = ({ label, style, data, placeholder, required }) => {
         style={styles.input}
         itemTextStyle={styles.item}
         fontFamily="InterMedium"
+        {...res}
       />
     </View>
   );

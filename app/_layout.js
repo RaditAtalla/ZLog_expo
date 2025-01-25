@@ -37,6 +37,8 @@ const _layout = () => {
           ),
         }}
       />
+      <Stack.Screen name="add_account" options={{ title: "Add Account" }} />
+      <Stack.Screen name="add_project" options={{ title: "Add Project" }} />
       <Stack.Screen name="more/index" options={{ title: "More" }} />
       <Stack.Screen
         name="more/list_spp/index"

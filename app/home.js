@@ -13,47 +13,82 @@ const Home = () => {
 
   return (
     <Layout statusBarColor={"white"}>
-      <Text style={styles.header}>
-        Welcome,
-        <Text style={styles.username}>{userData.nama}</Text>
-      </Text>
+      {userData.jabatan == "ADMIN" ? (
+        <>
+          <Text style={styles.username}>Admin Dashboard</Text>
+          <View style={styles.menuContainer}>
+            <View style={styles.menuRow}>
+              <Menu
+                onPress={() =>
+                  router.push({ pathname: "/add_account", params: { token } })
+                }
+                label={"Add Account"}
+                style={styles.menu}
+              />
+            </View>
+            <View style={styles.menuRow}>
+              <Menu
+                onPress={() =>
+                  router.push({ pathname: "/spp", params: { token } })
+                }
+                label={"Add Project"}
+                style={styles.menu}
+              />
+            </View>
+          </View>
+        </>
+      ) : (
+        <>
+          <Text style={styles.header}>
+            Welcome,
+            <Text style={styles.username}>{userData.nama}</Text>
+          </Text>
 
-      <View style={styles.menuContainer}>
-        <View style={styles.menuRow}>
-          <Menu
-            onPress={() => router.push({ pathname: "/spp", params: { token } })}
-            label={"SPP"}
-            style={styles.menu}
-          />
-          <Menu
-            onPress={() =>
-              router.push({ pathname: "/approval/", params: { token } })
-            }
-            label={"Approval"}
-            style={styles.menu}
-          />
-        </View>
-        <View style={styles.menuRow}>
-          <Menu
-            onPress={() =>
-              router.push({ pathname: "/goods_receipt/", params: { token } })
-            }
-            label={"Goods Receipt"}
-            style={styles.menu}
-          />
-          <Menu
-            onPress={() =>
-              router.push({ pathname: "/goods_issue", params: { token } })
-            }
-            label={"Goods Issue"}
-            style={styles.menu}
-          />
-        </View>
-        <Menu
-          onPress={() => router.push({ pathname: "/more", params: { token } })}
-          label={"More"}
-        />
-      </View>
+          <View style={styles.menuContainer}>
+            <View style={styles.menuRow}>
+              <Menu
+                onPress={() =>
+                  router.push({ pathname: "/spp", params: { token } })
+                }
+                label={"SPP"}
+                style={styles.menu}
+              />
+              <Menu
+                onPress={() =>
+                  router.push({ pathname: "/approval/", params: { token } })
+                }
+                label={"Approval"}
+                style={styles.menu}
+              />
+            </View>
+            <View style={styles.menuRow}>
+              <Menu
+                onPress={() =>
+                  router.push({
+                    pathname: "/goods_receipt/",
+                    params: { token },
+                  })
+                }
+                label={"Goods Receipt"}
+                style={styles.menu}
+              />
+              <Menu
+                onPress={() =>
+                  router.push({ pathname: "/goods_issue", params: { token } })
+                }
+                label={"Goods Issue"}
+                style={styles.menu}
+              />
+            </View>
+            <Menu
+              onPress={() =>
+                router.push({ pathname: "/more", params: { token } })
+              }
+              label={"More"}
+            />
+          </View>
+        </>
+      )}
     </Layout>
   );
 };
