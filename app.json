@@ -4,7 +4,7 @@
     "slug": "ZLog_expo",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/logo.png",
+    "icon": "./assets/images/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
@@ -17,7 +17,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/logo.png",
+        "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.atalla.ZLog_expo"
@@ -38,6 +38,7 @@
       "eas": {
         "projectId": "40e61f1a-2c31-44de-8fe7-6db5fa55b11b"
       }
-    }
+    },
+    "owner": "atalla"
   }
 }
