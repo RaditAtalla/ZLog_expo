@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "ZLog_expo",
-    "slug": "ZLog_expo",
-    "version": "1.0.0",
+    "name": "ZLOG APP",
+    "slug": "z-logistik-application",
+    "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
@@ -17,17 +17,22 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.atalla.ZLog_expo"
+      "package": "com.atalla.mrezaalvi.ZLog_expo"
     },
     "web": {
       "bundler": "metro",
       "output": "static",
       "favicon": "./assets/images/logo.png"
     },
-    "plugins": ["expo-router", ["expo-font"]],
+    "plugins": [
+      "expo-router",
+      [
+        "expo-font"
+      ]
+    ],
     "experiments": {
       "typedRoutes": true
     },
@@ -36,9 +41,9 @@
         "origin": false
       },
       "eas": {
-        "projectId": "40e61f1a-2c31-44de-8fe7-6db5fa55b11b"
+        "projectId": "373126d8-a874-491c-bf78-327a57ed7819"
       }
     },
-    "owner": "atalla"
+    "owner": "mrezaalvi"
   }
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, ActivityIndicator } from "react-native";
 import Layout from "@components/Layout";
 import Button from "@components/Button";
 import colors from "@constants/colors";
@@ -43,7 +43,7 @@ const Login = () => {
         {error == "Email tidak ditemukan" && (
           <Text style={{ color: "red", marginBottom: 10 }}>{error}</Text>
         )}
-        <View style={{ gap: 10 }}>
+        <View style={{ gap: 24 }}>
           <Input
             label="Email"
             placeholder={"Masukkan email anda"}
@@ -66,7 +66,7 @@ const Login = () => {
       <Button
         onPress={handleLogin}
         color={colors.blue_primary}
-        label={"Login"}
+        label={isLoading ? <ActivityIndicator color="white" /> : "Login"}
       />
     </Layout>
   );
