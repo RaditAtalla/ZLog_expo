@@ -13,20 +13,24 @@ import axios from "axios";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
   async function handleLogin() {
     setError("");
+    setIsLoading(true);
     try {
       const response = await axios.post("/user/login", {
         email,
         password,
       });
       const token = response.data.token;
+      setIsLoading(false);
       router.push({ pathname: "/home", params: { token } });
     } catch (error) {
       console.log(error.response.data.error);
       setError(error.response.data.error);
+      setIsLoading(false);
     }
   }
 
