@@ -107,11 +107,11 @@ const styles = StyleSheet.create({
     width: "90%",
   },
   label: {
-    marginBottom:10,
+    marginBottom: 10,
     fontSize: 14,
     fontFamily: "InterMedium",
     fontWeight: "500",
-    color:COLORS.blue_primary,
+    color: COLORS.blue_primary,
   },
 });
 

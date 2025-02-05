@@ -16,10 +16,10 @@ const Dropdown = ({ label, style, data, placeholder, required, ...res }) => {
         valueField={"value"}
         placeholder={placeholder}
         placeholderStyle={styles.placeholder}
-        selectedTextStyle={[styles.placeholder, { color: "black" }]}
         style={styles.input}
         itemTextStyle={styles.item}
         fontFamily="InterMedium"
+        selectedTextStyle={styles.selectedText}
         {...res}
       />
     </View>
@@ -33,14 +33,13 @@ const styles = StyleSheet.create({
 
   text: {
     color: COLORS.blue_primary,
-    fontSize: 12,
+    fontSize: 14,
     fontFamily: "InterMedium",
   },
 
   placeholder: {
     fontSize: 12,
-    fontFamily: "InterMedium",
-    color: COLORS.grey,
+    color: COLORS.blue_secondary,
   },
 
   input: {
@@ -57,6 +56,10 @@ const styles = StyleSheet.create({
 
   item: {
     fontSize: 12,
+  },
+  selectedText: {
+    color: COLORS.blue_primary,
+    fontSize: 16,
   },
 });
 
