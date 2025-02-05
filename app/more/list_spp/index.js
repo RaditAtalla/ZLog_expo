@@ -40,7 +40,8 @@ const ListSPP = () => {
   if (
     userData.jabatan != "PM" &&
     userData.jabatan != "SEM" &&
-    userData.jabatan != "POP"
+    userData.jabatan != "POP" &&
+    userData.jabatan != "LOGISTIK"
   ) {
     return (
       <Layout style={{ justifyContent: "center", alignItems: "center" }}>
