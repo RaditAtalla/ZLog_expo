@@ -10,6 +10,7 @@ import axios from "axios";
 import Dropdown from "@components/Dropdown";
 
 export default function AddProject() {
+  const [users, setUsers] = useState([]);
   const [projectData, setProjectData] = useState({
     nama: "",
     kode: 0,
@@ -28,24 +29,25 @@ export default function AddProject() {
     sak: "",
     se: "",
   });
-  const [pm, setPm] = useState([{}]);
-  const [sem, setSem] = useState([{}]);
-  const [pop, setPop] = useState([{}]);
-  const [logistik, setLogistik] = useState([{}]);
-  const [penbar, setPenbar] = useState([{}]);
-  const [som, setSom] = useState([{}]);
-  const [gsp, setGsp] = useState([{}]);
-  const [sp, setSp] = useState([{}]);
-  const [ark, setArk] = useState([{}]);
-  const [qco, setQco] = useState([{}]);
-  const [hseo, setHseo] = useState([{}]);
-  const [sak, setSak] = useState([{}]);
-  const [se, setSe] = useState([{}]);
+  const [pm, setPm] = useState([]);
+  const [sem, setSem] = useState([]);
+  const [pop, setPop] = useState([]);
+  const [logistik, setLogistik] = useState([]);
+  const [penbar, setPenbar] = useState([]);
+  const [som, setSom] = useState([]);
+  const [gsp, setGsp] = useState([]);
+  const [sp, setSp] = useState([]);
+  const [ark, setArk] = useState([]);
+  const [qco, setQco] = useState([]);
+  const [hseo, setHseo] = useState([]);
+  const [sak, setSak] = useState([]);
+  const [se, setSe] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
   const { token } = useLocalSearchParams();
 
   async function handleAdd() {
+    console.log("handle add");
     setError("");
     const kodeToNumber = parseInt(projectData.kode);
     if (
@@ -56,14 +58,19 @@ export default function AddProject() {
       return setError("Harap isi seluruh kolom *");
     }
 
+    console.log(1);
+
     if (isNaN(projectData.kode)) {
       return setError("Kode harus angka");
     }
 
     try {
+      console.log(2);
       const project = await axios.get("/project", {
         headers: { Authorization: `Bearer ${token}` },
       });
+
+      console.log(3);
 
       const prevProjectData = project.data;
       let isKodeDuplicate = false;
@@ -78,6 +85,7 @@ export default function AddProject() {
         return setError("Kode sudah ada");
       }
 
+      console.log(4);
       const postProject = await axios.post(
         "/project",
         {
@@ -94,6 +102,7 @@ export default function AddProject() {
         }
       );
 
+      console.log(5);
       await axios.post(
         "/project/pic",
         {
@@ -119,6 +128,7 @@ export default function AddProject() {
         }
       );
 
+      console.log(6);
       setProjectData({
         nama: "",
         kode: 0,
@@ -150,41 +160,60 @@ export default function AddProject() {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = user.data;
-      data.forEach((d) => {
+      setUsers(data);
+    }
+
+    getJabatan();
+  }, []);
+
+  useEffect(() => {
+    if (users.length > 0) {
+      setPm([]);
+      setSem([]);
+      setPop([]);
+      setLogistik([]);
+      setPenbar([]);
+      setSom([]);
+      setGsp([]);
+      setSp([]);
+      setArk([]);
+      setQco([]);
+      setHseo([]);
+      setSak([]);
+      setSe([]);
+      users.forEach((d, i) => {
         if (d.jabatan == "PM") {
-          setPm((x) => [...x, { label: d.email }]);
+          setPm((x) => [...x, { label: d.email, value: i }]);
         } else if (d.jabatan == "SEM") {
-          setSem((x) => [...x, { label: d.email }]);
+          setSem((x) => [...x, { label: d.email, value: i }]);
         } else if (d.jabatan == "POP") {
-          setPop((x) => [...x, { label: d.email }]);
+          setPop((x) => [...x, { label: d.email, value: i }]);
         } else if (d.jabatan == "LOGISTIK") {
-          setLogistik((x) => [...x, { label: d.email }]);
+          setLogistik((x) => [...x, { label: d.email, value: i }]);
         } else if (d.jabatan == "PENBAR") {
-          setPenbar((x) => [...x, { label: d.email }]);
+          setPenbar((x) => [...x, { label: d.email, value: i }]);
         } else if (d.jabatan == "SOM") {
-          setSom((x) => [...x, { label: d.email }]);
+          setSom((x) => [...x, { label: d.email, value: i }]);
         } else if (d.jabatan == "GSP") {
-          setGsp((x) => [...x, { label: d.email }]);
+          setGsp((x) => [...x, { label: d.email, value: i }]);
         } else if (d.jabatan == "SP") {
-          setSp((x) => [...x, { label: d.email }]);
+          setSp((x) => [...x, { label: d.email, value: i }]);
         } else if (d.jabatan == "ARK") {
-          setArk((x) => [...x, { label: d.email }]);
+          setArk((x) => [...x, { label: d.email, value: i }]);
         } else if (d.jabatan == "QCO") {
-          setQco((x) => [...x, { label: d.email }]);
+          setQco((x) => [...x, { label: d.email, value: i }]);
         } else if (d.jabatan == "HSEO") {
-          setHseo((x) => [...x, { label: d.email }]);
+          setHseo((x) => [...x, { label: d.email, value: i }]);
         } else if (d.jabatan == "SAK") {
-          setSak((x) => [...x, { label: d.email }]);
+          setSak((x) => [...x, { label: d.email, value: i }]);
         } else if (d.jabatan == "SE") {
-          setSe((x) => [...x, { label: d.email }]);
+          setSe((x) => [...x, { label: d.email, value: i }]);
         }
       });
 
       setIsLoading(false);
     }
-
-    getJabatan();
-  }, []);
+  }, [users]);
 
   return (
     <Layout hasBackButton style={{ justifyContent: "space-between" }}>
@@ -192,7 +221,7 @@ export default function AddProject() {
         <Text>Loading...</Text>
       ) : (
         <>
-          <ScrollView style={{ flexDirection: "column", gap: 16 }}>
+          <ScrollView contentContainerStyle={{ gap: 16 }}>
             {error == "Harap isi seluruh kolom *" && (
               <Text style={{ color: "red" }}>{error}</Text>
             )}
@@ -232,7 +261,9 @@ export default function AddProject() {
               placeholder={"PM..."}
               data={pm}
               value={projectData.pm.label}
-              onChange={(text) => setProjectData({ ...projectData, pm: text })}
+              onChange={(text) =>
+                setProjectData({ ...projectData, pm: text.label })
+              }
               required
             />
             <Dropdown
@@ -240,7 +271,9 @@ export default function AddProject() {
               placeholder={"SEM..."}
               data={sem}
               value={projectData.sem.label}
-              onChange={(text) => setProjectData({ ...projectData, sem: text })}
+              onChange={(text) =>
+                setProjectData({ ...projectData, sem: text.label })
+              }
               required
             />
             <Dropdown
@@ -248,7 +281,9 @@ export default function AddProject() {
               placeholder={"POP..."}
               data={pop}
               value={projectData.pop.label}
-              onChange={(text) => setProjectData({ ...projectData, pop: text })}
+              onChange={(text) =>
+                setProjectData({ ...projectData, pop: text.label })
+              }
               required
             />
             <Dropdown
@@ -257,7 +292,7 @@ export default function AddProject() {
               data={logistik}
               value={projectData.logistik.label}
               onChange={(text) =>
-                setProjectData({ ...projectData, logistik: text })
+                setProjectData({ ...projectData, logistik: text.label })
               }
               required
             />
@@ -267,7 +302,7 @@ export default function AddProject() {
               data={penbar}
               value={projectData.penbar.label}
               onChange={(text) =>
-                setProjectData({ ...projectData, penbar: text })
+                setProjectData({ ...projectData, penbar: text.label })
               }
               required
             />
@@ -276,7 +311,9 @@ export default function AddProject() {
               placeholder={"SOM..."}
               data={som}
               value={projectData.som.label}
-              onChange={(text) => setProjectData({ ...projectData, som: text })}
+              onChange={(text) =>
+                setProjectData({ ...projectData, som: text.label })
+              }
               required
             />
             <Dropdown
@@ -284,7 +321,9 @@ export default function AddProject() {
               placeholder={"GSP..."}
               data={gsp}
               value={projectData.gsp.label}
-              onChange={(text) => setProjectData({ ...projectData, gsp: text })}
+              onChange={(text) =>
+                setProjectData({ ...projectData, gsp: text.label })
+              }
               required
             />
             <Dropdown
@@ -292,7 +331,9 @@ export default function AddProject() {
               placeholder={"SP..."}
               data={sp}
               value={projectData.sp.label}
-              onChange={(text) => setProjectData({ ...projectData, sp: text })}
+              onChange={(text) =>
+                setProjectData({ ...projectData, sp: text.label })
+              }
               required
             />
             <Dropdown
@@ -300,7 +341,9 @@ export default function AddProject() {
               placeholder={"ARK..."}
               data={ark}
               value={projectData.ark.label}
-              onChange={(text) => setProjectData({ ...projectData, ark: text })}
+              onChange={(text) =>
+                setProjectData({ ...projectData, ark: text.label })
+              }
               required
             />
             <Dropdown
@@ -308,7 +351,9 @@ export default function AddProject() {
               placeholder={"QCO..."}
               data={qco}
               value={projectData.qco.label}
-              onChange={(text) => setProjectData({ ...projectData, qco: text })}
+              onChange={(text) =>
+                setProjectData({ ...projectData, qco: text.label })
+              }
               required
             />
             <Dropdown
@@ -317,7 +362,7 @@ export default function AddProject() {
               data={hseo}
               value={projectData.hseo.label}
               onChange={(text) =>
-                setProjectData({ ...projectData, hseo: text })
+                setProjectData({ ...projectData, hseo: text.label })
               }
               required
             />
@@ -326,7 +371,9 @@ export default function AddProject() {
               placeholder={"SAK..."}
               data={sak}
               value={projectData.sak.label}
-              onChange={(text) => setProjectData({ ...projectData, sak: text })}
+              onChange={(text) =>
+                setProjectData({ ...projectData, sak: text.label })
+              }
               required
             />
             <Dropdown
@@ -334,7 +381,9 @@ export default function AddProject() {
               placeholder={"SE..."}
               data={se}
               value={projectData.se.label}
-              onChange={(text) => setProjectData({ ...projectData, se: text })}
+              onChange={(text) =>
+                setProjectData({ ...projectData, se: text.label })
+              }
               required
             />
           </ScrollView>
