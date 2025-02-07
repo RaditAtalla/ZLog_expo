@@ -47,7 +47,6 @@ export default function AddProject() {
   const { token } = useLocalSearchParams();
 
   async function handleAdd() {
-    console.log("handle add");
     setError("");
     const kodeToNumber = parseInt(projectData.kode);
     if (
@@ -58,19 +57,14 @@ export default function AddProject() {
       return setError("Harap isi seluruh kolom *");
     }
 
-    console.log(1);
-
     if (isNaN(projectData.kode)) {
       return setError("Kode harus angka");
     }
 
     try {
-      console.log(2);
       const project = await axios.get("/project", {
         headers: { Authorization: `Bearer ${token}` },
       });
-
-      console.log(3);
 
       const prevProjectData = project.data;
       let isKodeDuplicate = false;
@@ -85,7 +79,6 @@ export default function AddProject() {
         return setError("Kode sudah ada");
       }
 
-      console.log(4);
       const postProject = await axios.post(
         "/project",
         {
@@ -102,7 +95,6 @@ export default function AddProject() {
         }
       );
 
-      console.log(5);
       await axios.post(
         "/project/pic",
         {
