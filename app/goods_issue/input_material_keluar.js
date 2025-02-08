@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Layout from "@components/Layout";
-import Input from "@components/Input";
-import { View, Text } from "react-native";
+import { View, Text, TextInput, ScrollView } from "react-native";
 import Button from "@components/Button";
 import colors from "@constants/colors";
 import "@constants/axiosConfig.js";
@@ -10,68 +9,51 @@ import axios from "axios";
 import useUser from "@lib/hooks/useUser";
 
 const InputMaterialKeluar = () => {
-  const [material, setMaterial] = useState("");
-  const [spesifikasi, setSpesifikasi] = useState("");
-  const [volumeOut, setVolumeOut] = useState(0);
-  const [satuan, setSatuan] = useState("");
+  const [stock, setStock] = useState([]);
   const [goodsIssueData, setGoodsIssueData] = useState([]);
-  const [isSubmit, setIsSubmit] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
+  const [outOfStock, setOutOfStock] = useState(false);
   const { token } = useLocalSearchParams();
   const userData = useUser(token);
 
-  function handleNext() {
-    setError("");
-    const volumeOutToNumber = parseInt(volumeOut);
-    if (!material || !spesifikasi || volumeOutToNumber == 0 || !satuan) {
-      setError("Harap isi seluruh kolom *");
-      return;
-    }
-
-    if (isNaN(volumeOutToNumber)) {
-      setError("Volume out harus angka");
-      return;
-    }
-
-    setGoodsIssueData((s) => [
-      ...s,
-      { material, spesifikasi, satuan, volumeOut },
-    ]);
-
-    setMaterial("");
-    setSpesifikasi("");
-    setVolumeOut("");
-    setSatuan("");
-  }
-
-  function handleOk() {
-    setError("");
-    const volumeOutToNumber = parseInt(volumeOut);
-    if (!material || !spesifikasi || volumeOutToNumber == 0 || !satuan) {
-      setError("Harap isi seluruh kolom *");
-      return;
-    }
-
-    if (isNaN(volumeOutToNumber)) {
-      setError("Volume out harus angka");
-      return;
-    }
-
-    setGoodsIssueData((s) => [
-      ...s,
-      { material, spesifikasi, satuan, volumeOut },
-    ]);
-    setIsSubmit(true);
-  }
-
   async function handleSubmit() {
-    handleNext();
     setError("");
+    setOutOfStock(false);
+
+    if (goodsIssueData.length == 0) {
+      return setError("Minimal satu material harus diisi sebelum submit");
+    }
+
+    if (outOfStock) {
+      return setError("Ada material yang stock-nya tidak mencukupi");
+    }
+
+    // TODO: if i pass a text, it will give warning, but when i change it to number and then submit, nothing happened
+    let textExist = false;
+    const seenMaterial = [];
+    const goodsIssue = [];
+
+    goodsIssueData.forEach((d) => {
+      if (isNaN(d.volumeOut)) {
+        return (textExist = true);
+      }
+
+      if (!seenMaterial.includes(d.material)) {
+        goodsIssue.push(d);
+        seenMaterial.push(d.material);
+      }
+    });
+
+    if (textExist) {
+      return setError("Harap isi dengan angka");
+    }
+
     try {
       const postGoodsIssue = await axios.post(
         "/goods-issue/",
         {
-          data: goodsIssueData,
+          data: goodsIssue,
         },
         {
           headers: {
@@ -91,6 +73,38 @@ const InputMaterialKeluar = () => {
     }
   }
 
+  function handleChangeText(material, spesifikasi, volumeOut, satuan, stok) {
+    if (volumeOut != "") {
+      if (stok < volumeOut) {
+        return setOutOfStock(true);
+      }
+
+      setGoodsIssueData([
+        {
+          material,
+          spesifikasi,
+          volumeOut,
+          satuan,
+        },
+        ...goodsIssueData,
+      ]);
+    }
+  }
+
+  useEffect(() => {
+    async function getStock() {
+      const stock = await axios.get("/material", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      const data = stock.data;
+      setStock(data);
+      setIsLoading(false);
+    }
+
+    getStock();
+  }, []);
+
   if (userData.jabatan != "LOGISTIK" && userData.jabatan != "PENBAR") {
     return (
       <Layout style={{ justifyContent: "center", alignItems: "center" }}>
@@ -100,71 +114,82 @@ const InputMaterialKeluar = () => {
   }
 
   return (
-    <Layout hasBackButton style={{ justifyContent: "space-between" }}>
-      <View style={{ flexDirection: "column", gap: 16 }}>
-        {error == "Harap isi seluruh kolom *" && (
-          <Text style={{ color: "red" }}>{error}</Text>
-        )}
-        <Input
-          label={"Item material"}
-          placeholder={"Item material..."}
-          value={material}
-          onChangeText={(text) => setMaterial(text)}
-          required
-        />
-        <Input
-          label={"Spesifikasi"}
-          placeholder={"Spesifikasi..."}
-          value={spesifikasi}
-          onChangeText={(text) => setSpesifikasi(text)}
-          required
-        />
-        {error == "Volume harus angka" && (
-          <Text style={{ color: "red" }}>{error}</Text>
-        )}
-        <Input
-          label={"Volume Keluar"}
-          placeholder={"Volume keluar..."}
-          inputMode={"numeric"}
-          required
-          value={volumeOut}
-          onChangeText={(text) => setVolumeOut(text)}
-        />
-        <Input
-          label={"Satuan"}
-          placeholder={"Satuan..."}
-          required
-          value={satuan}
-          onChangeText={(text) => setSatuan(text)}
-        />
-      </View>
-
-      <View
-        style={{ flexDirection: "row", justifyContent: "flex-end", gap: 12 }}
-      >
-        <Button
-          type={"ghost"}
-          color={colors.blue_primary}
-          label={"Next"}
-          style={{ flex: 1 }}
-          onPress={handleNext}
-        />
-        {isSubmit ? (
-          <Button
-            onPress={handleSubmit}
-            color={"green"}
-            label={"Submit"}
-            style={{ flex: 1 }}
-          />
-        ) : (
-          <Button
-            onPress={handleOk}
-            color={colors.blue_primary}
-            label={"Finish"}
-            style={{ flex: 1 }}
-          />
-        )}
-      </View>
+    <Layout style={{ justifyContent: "space-between" }}>
+      {isLoading ? (
+        <Text>Loading...</Text>
+      ) : (
+        <>
+          <ScrollView
+            contentContainerStyle={{ gap: 20, paddingHorizontal: 10 }}
+          >
+            {error && <Text style={{ color: "red" }}>{error}</Text>}
+            {stock.length == 0 && <Text>No data..</Text>}
+            {stock.map((s) => {
+              return (
+                <View
+                  key={s.id}
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <View>
+                    <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+                      {s.nama}
+                    </Text>
+                    <Text style={{ fontSize: 14 }}>
+                      {s.spesifikasi} ({s.volume})
+                    </Text>
+                  </View>
+                  <View style={{ alignItems: "flex-end" }}>
+                    <TextInput
+                      placeholder="0"
+                      inputMode="numeric"
+                      onChangeText={(volume) =>
+                        handleChangeText(
+                          s.nama,
+                          s.spesifikasi,
+                          volume,
+                          s.satuan,
+                          s.volume
+                        )
+                      }
+                      style={{
+                        borderRadius: 5,
+                        borderWidth: 1,
+                        borderColor: colors.light_grey,
+                        backgroundColor: colors.blue_opacity,
+                        color: colors.blue_primary,
+                        fontSize: 14,
+                        textAlign: "center",
+                        minWidth: 50,
+                        maxWidth: 50,
+                        height: 25,
+                      }}
+                    />
+                    <Text style={{ fontSize: 14 }}>{s.satuan}</Text>
+                  </View>
+                </View>
+              );
+            })}
+          </ScrollView>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "flex-end",
+              gap: 12,
+            }}
+          >
+            <Button
+              onPress={handleSubmit}
+              color={colors.blue_primary}
+              label={"Submit"}
+              style={{ flex: 1 }}
+            />
+          </View>
+        </>
+      )}
     </Layout>
   );
 };

@@ -44,7 +44,7 @@ const GoodsIssuePreview = () => {
               <View key={d.id} style={{ marginBottom: 30 }}>
                 <Text>Material: {d.material}</Text>
                 <Text>spesifikasi: {d.spesifikasi}</Text>
-                <Text>volume: {d.volume}</Text>
+                <Text>volume: {d.volumeOut}</Text>
                 <Text>satuan: {d.satuan}</Text>
               </View>
             );
