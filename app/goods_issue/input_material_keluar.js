@@ -135,7 +135,13 @@ const InputMaterialKeluar = () => {
                   }}
                 >
                   <View>
-                    <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+                    <Text
+                      style={{
+                        fontSize: 16,
+                        fontWeight: "bold",
+                        color: colors.blue_primary,
+                      }}
+                    >
                       {s.nama}
                     </Text>
                     <Text style={{ fontSize: 14 }}>

@@ -36,7 +36,11 @@ const StockMaterial = () => {
           <Text>Loading...</Text>
         ) : (
           materialData.map((m) => {
-            return <Text key={m.id}>Material: {m.nama}</Text>;
+            return (
+              <Text key={m.id}>
+                {m.nama} ({m.volume})
+              </Text>
+            );
           })
         )}
         {materialData.length == 0 && <Text>Tidak ada data</Text>}
