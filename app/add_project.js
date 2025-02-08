@@ -85,8 +85,8 @@ export default function AddProject() {
           kode: kodeToNumber,
           nama: projectData.nama,
           lokasi: projectData.lokasi,
-          emailAcc1: projectData.sem.label,
-          emailAcc2: projectData.pop.label,
+          emailAcc1: projectData.pm.label,
+          emailAcc2: projectData.sem.label,
         },
         {
           headers: {
@@ -120,7 +120,6 @@ export default function AddProject() {
         }
       );
 
-      console.log(6);
       setProjectData({
         nama: "",
         kode: 0,
@@ -252,39 +251,35 @@ export default function AddProject() {
               label={"PM"}
               placeholder={"PM..."}
               data={pm}
-              value={projectData.pm.label}
-              onChange={(text) =>
-                setProjectData({ ...projectData, pm: text.label })
-              }
+              value={projectData.pm}
+              onChange={(text) => {
+                setProjectData({ ...projectData, pm: text });
+              }}
               required
             />
             <Dropdown
               label={"SEM"}
               placeholder={"SEM..."}
               data={sem}
-              value={projectData.sem.label}
-              onChange={(text) =>
-                setProjectData({ ...projectData, sem: text.label })
-              }
+              value={projectData.sem}
+              onChange={(text) => setProjectData({ ...projectData, sem: text })}
               required
             />
             <Dropdown
               label={"POP"}
               placeholder={"POP..."}
               data={pop}
-              value={projectData.pop.label}
-              onChange={(text) =>
-                setProjectData({ ...projectData, pop: text.label })
-              }
+              value={projectData.pop}
+              onChange={(text) => setProjectData({ ...projectData, pop: text })}
               required
             />
             <Dropdown
               label={"LOGISTIK"}
               placeholder={"LOGISTIK..."}
               data={logistik}
-              value={projectData.logistik.label}
+              value={projectData.logistik}
               onChange={(text) =>
-                setProjectData({ ...projectData, logistik: text.label })
+                setProjectData({ ...projectData, logistik: text })
               }
               required
             />
@@ -292,9 +287,9 @@ export default function AddProject() {
               label={"PENBAR"}
               placeholder={"PENBAR..."}
               data={penbar}
-              value={projectData.penbar.label}
+              value={projectData.penbar}
               onChange={(text) =>
-                setProjectData({ ...projectData, penbar: text.label })
+                setProjectData({ ...projectData, penbar: text })
               }
               required
             />
@@ -302,59 +297,49 @@ export default function AddProject() {
               label={"SOM"}
               placeholder={"SOM..."}
               data={som}
-              value={projectData.som.label}
-              onChange={(text) =>
-                setProjectData({ ...projectData, som: text.label })
-              }
+              value={projectData.som}
+              onChange={(text) => setProjectData({ ...projectData, som: text })}
               required
             />
             <Dropdown
               label={"GSP"}
               placeholder={"GSP..."}
               data={gsp}
-              value={projectData.gsp.label}
-              onChange={(text) =>
-                setProjectData({ ...projectData, gsp: text.label })
-              }
+              value={projectData.gsp}
+              onChange={(text) => setProjectData({ ...projectData, gsp: text })}
               required
             />
             <Dropdown
               label={"SP"}
               placeholder={"SP..."}
               data={sp}
-              value={projectData.sp.label}
-              onChange={(text) =>
-                setProjectData({ ...projectData, sp: text.label })
-              }
+              value={projectData.sp}
+              onChange={(text) => setProjectData({ ...projectData, sp: text })}
               required
             />
             <Dropdown
               label={"ARK"}
               placeholder={"ARK..."}
               data={ark}
-              value={projectData.ark.label}
-              onChange={(text) =>
-                setProjectData({ ...projectData, ark: text.label })
-              }
+              value={projectData.ark}
+              onChange={(text) => setProjectData({ ...projectData, ark: text })}
               required
             />
             <Dropdown
               label={"QCO"}
               placeholder={"QCO..."}
               data={qco}
-              value={projectData.qco.label}
-              onChange={(text) =>
-                setProjectData({ ...projectData, qco: text.label })
-              }
+              value={projectData.qco}
+              onChange={(text) => setProjectData({ ...projectData, qco: text })}
               required
             />
             <Dropdown
               label={"HSEO"}
               placeholder={"HSEO..."}
               data={hseo}
-              value={projectData.hseo.label}
+              value={projectData.hseo}
               onChange={(text) =>
-                setProjectData({ ...projectData, hseo: text.label })
+                setProjectData({ ...projectData, hseo: text })
               }
               required
             />
@@ -362,20 +347,16 @@ export default function AddProject() {
               label={"SAK"}
               placeholder={"SAK..."}
               data={sak}
-              value={projectData.sak.label}
-              onChange={(text) =>
-                setProjectData({ ...projectData, sak: text.label })
-              }
+              value={projectData.sak}
+              onChange={(text) => setProjectData({ ...projectData, sak: text })}
               required
             />
             <Dropdown
               label={"SE"}
               placeholder={"SE..."}
               data={se}
-              value={projectData.se.label}
-              onChange={(text) =>
-                setProjectData({ ...projectData, se: text.label })
-              }
+              value={projectData.se}
+              onChange={(text) => setProjectData({ ...projectData, se: text })}
               required
             />
           </ScrollView>
