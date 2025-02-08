@@ -44,9 +44,20 @@ const SPPDownload = () => {
         {isLoading ? (
           <Text>Loading...</Text>
         ) : (
-          detailBppb.map((d) => {
-            return <Text key={d.id}>material: {d.material}</Text>;
-          })
+          <>
+            <Text
+              style={{
+                color: colors.blue_primary,
+                fontWeight: "bold",
+                fontSize: 16,
+              }}
+            >
+              Created at: {new Date(dataBppb.createdAt).toLocaleString()}
+            </Text>
+            {detailBppb.map((d) => {
+              return <Text key={d.id}>material: {d.material}</Text>;
+            })}
+          </>
         )}
       </View>
       <Button

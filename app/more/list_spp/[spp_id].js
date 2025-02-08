@@ -39,6 +39,15 @@ const SPPDownload = () => {
   return (
     <Layout style={{ justifyContent: "space-between" }}>
       <View>
+        <Text
+          style={{
+            color: colors.blue_primary,
+            fontWeight: "bold",
+            fontSize: 16,
+          }}
+        >
+          Created at: {new Date(dataSpp.createdAt).toLocaleString()}
+        </Text>
         {detailSpp.map((d) => {
           return <Text key={d.id}>material: {d.material}</Text>;
         })}

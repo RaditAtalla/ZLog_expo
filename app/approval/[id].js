@@ -5,6 +5,7 @@ import Button from "@components/Button";
 import "@constants/axiosConfig.js";
 import { router, useLocalSearchParams } from "expo-router";
 import axios from "axios";
+import colors from "@constants/colors";
 
 const Approval = () => {
   const [dataSpp, setDataSpp] = useState();
@@ -81,17 +82,34 @@ const Approval = () => {
       {isLoading ? (
         <Text>Loading...</Text>
       ) : (
-        detailSpp.map((d) => {
-          return (
-            <View key={d.id} style={{ marginBottom: 30 }}>
-              <Text>Material: {d.material}</Text>
-              <Text>spesifikasi: {d.spesifikasi}</Text>
-              <Text>volume: {d.volume}</Text>
-              <Text>satuan: {d.satuan}</Text>
-              <Text>lokasi: {d.lokasi}</Text>
-            </View>
-          );
-        })
+        <View style={{ gap: 20 }}>
+          <View>
+            <Text style={{ color: colors.blue_primary, fontSize: 16 }}>
+              Created At: {new Date(dataSpp.createdAt).toLocaleString()}
+            </Text>
+            <Text style={{ color: colors.blue_primary, fontSize: 16 }}>
+              Acc by SEM At:{" "}
+              {dataSpp.acc2At && new Date(dataSpp.acc2At).toLocaleString()}
+            </Text>
+            <Text style={{ color: colors.blue_primary, fontSize: 16 }}>
+              Acc by PM At:{" "}
+              {dataSpp.acc1At && new Date(dataSpp.acc1At).toLocaleString()}
+            </Text>
+          </View>
+          <View style={{ gap: 20 }}>
+            {detailSpp.map((d) => {
+              return (
+                <View key={d.id}>
+                  <Text>Material: {d.material}</Text>
+                  <Text>spesifikasi: {d.spesifikasi}</Text>
+                  <Text>volume: {d.volume}</Text>
+                  <Text>satuan: {d.satuan}</Text>
+                  <Text>lokasi: {d.lokasi}</Text>
+                </View>
+              );
+            })}
+          </View>
+        </View>
       )}
       <View>
         <Button label={"Approve"} color={"green"} onPress={handleApprove} />
